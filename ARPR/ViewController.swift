@@ -34,23 +34,12 @@ class ViewController: UIViewController, ARSessionDelegate {
         viewWidth = Int(sceneView.bounds.width)
         viewHeight = Int(sceneView.bounds.height)
         
-        // Set the view's delegate
-        //sceneView.delegate = self
-        
-        
         let config = ARFaceTrackingConfiguration()
         sceneView.session.delegate = self
         sceneView.session.run(config, options: [.removeExistingAnchors])
         
-        
-        // Show statistics such as fps and timing information
-//        sceneView.showsStatistics = true
-        
-        // Create a new scene
-//        let scene = SCNScene(named: "art.scnassets/ship.scn")!
-        
-        // Set the scene to the view
-//        sceneView.scene = scene
+        // ドラッグ＆ドロップの画面上のジェスチャーを検知
+sceneView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(ViewController.handleMove(_:))))
         
         // ライトの追加
         sceneView.autoenablesDefaultLighting = true
@@ -91,6 +80,15 @@ class ViewController: UIViewController, ARSessionDelegate {
             guard let observation = handPoses.first else { return }
             getHandPosition(handPoseObservation: observation)
         }
+    }
+    
+    // ドラッグ&ドロップのジェスチャーの挙動
+    @objc func handleMove(_ gesture: UIPanGestureRecognizer) {
+        let location = gesture.location(in: self.sceneView)
+        guard let nodeHitTest = self.sceneView.hitTest(location, options: nil).first else { print("no node"); return }
+        let nodeHit = nodeHitTest.node
+        let worldTransform = nodeHitTest.simdWorldCoordinates
+        nodeHit.position = SCNVector3(worldTransform.x, worldTransform.y, -0.3)
     }
     
     func getHandPosition(handPoseObservation: VNHumanHandPoseObservation) {
