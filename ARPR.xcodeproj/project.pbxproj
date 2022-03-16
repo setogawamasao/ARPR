@@ -13,6 +13,7 @@
 		982CAC3327DBA98F0036F926 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 982CAC3127DBA98F0036F926 /* Main.storyboard */; };
 		982CAC3527DBA98F0036F926 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 982CAC3427DBA98F0036F926 /* Assets.xcassets */; };
 		982CAC3827DBA98F0036F926 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 982CAC3627DBA98F0036F926 /* LaunchScreen.storyboard */; };
+		982D752F27E201A10008FC35 /* QaNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982D752E27E201A10008FC35 /* QaNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		982CAC3227DBA98F0036F926 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		982CAC3427DBA98F0036F926 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		982CAC3727DBA98F0036F926 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		982D752E27E201A10008FC35 /* QaNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QaNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 				982CAC2B27DBA98F0036F926 /* AppDelegate.swift */,
 				982CAC2D27DBA98F0036F926 /* art.scnassets */,
 				982CAC2F27DBA98F0036F926 /* ViewController.swift */,
+				982D752E27E201A10008FC35 /* QaNode.swift */,
 				982CAC3127DBA98F0036F926 /* Main.storyboard */,
 				982CAC3427DBA98F0036F926 /* Assets.xcassets */,
 				982CAC3627DBA98F0036F926 /* LaunchScreen.storyboard */,
@@ -139,6 +142,7 @@
 			files = (
 				982CAC3027DBA98F0036F926 /* ViewController.swift in Sources */,
 				982CAC2C27DBA98F0036F926 /* AppDelegate.swift in Sources */,
+				982D752F27E201A10008FC35 /* QaNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
