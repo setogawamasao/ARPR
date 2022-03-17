@@ -10,7 +10,7 @@ import SceneKit
 import ARKit
 import Vision
 
-class ViewController: UIViewController, ARSessionDelegate {
+class ViewController: UIViewController, ARSessionDelegate, DataReturn {
 
     @IBOutlet var sceneView: ARSCNView!
     var currentHandPoseObservation: VNHumanHandPoseObservation?
@@ -35,10 +35,12 @@ class ViewController: UIViewController, ARSessionDelegate {
         // ライトの追加
         sceneView.autoenablesDefaultLighting = true
         // 初期QAの追加
-        self.AddText(question: "年齢は?", answer: "32歳", position: SCNVector3(-0.05,0.25,-0.3))
-        self.AddText(question: "学歴は?", answer: "院卒", position: SCNVector3(0.05,0.25,-0.3))
-        self.AddText(question: "職業は?", answer: "SE", position: SCNVector3(-0.05,-0.05,-0.3))
-        self.AddText(question: "年収は?", answer: "600", position: SCNVector3(0.05,-0.05,-0.3))
+        let qaNode1 = QaNode(question: "年齢は?", answer: "32歳", initPosition: SCNVector3(0,0,-0.3))
+        sceneView.scene.rootNode.addChildNode(qaNode1)
+        
+//        self.AddText(question: "学歴は?", answer: "院卒", position: SCNVector3(0.05,0.25,-0.3))
+//        self.AddText(question: "職業は?", answer: "SE", position: SCNVector3(-0.05,-0.05,-0.3))
+//        self.AddText(question: "年収は?", answer: "600", position: SCNVector3(0.05,-0.05,-0.3))
     }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
@@ -105,32 +107,30 @@ class ViewController: UIViewController, ARSessionDelegate {
             screenPosition.x = Float(location.x)
             screenPosition.y = Float(location.y)
             let newPosition = sceneView.unprojectPoint(screenPosition)
-            self.AddText(question: "追加した?", answer: "追加しました", position: newPosition)
+//            self.AddText(question: "追加した?", answer: "追加しました", position: newPosition)
+            
+            if let editModalViewController = self.storyboard?.instantiateViewController(withIdentifier: "EditModal") as? EditModalViewController
+            {
+                editModalViewController.modalPresentationStyle = .popover
+                if let popover = editModalViewController.popoverPresentationController {
+                    let sheet = popover.adaptiveSheetPresentationController
+                    sheet.detents = [.medium()]
+                    sheet.prefersGrabberVisible = true // ハンドルを表示
+                }
+                editModalViewController.initPostition = newPosition
+                editModalViewController.delegate = self
+
+                present(editModalViewController, animated: true, completion: nil)
+            }
             return
         }
         
         // hit object -> edit qa object
         print("exist node");
-        
     }
     
-    // シーンにテキストオブジェクトを追加する
-    func AddText(question: String, answer: String, position: SCNVector3){
-        let text = SCNText(string: question, extrusionDepth: 0.5)
-        text.font = UIFont(name: "HiraginoSans-W6", size: 1 )
-        text.firstMaterial?.diffuse.contents = UIColor.green
-        
-        let textNode = QaNode(geometry: text)
-        textNode.answer = answer
-        
-        let (min, max) = (textNode.boundingBox)
-        let w = Float(max.x - min.x)
-        let h = Float(max.y - min.y)
-        textNode.pivot = SCNMatrix4MakeTranslation(w/2 + min.x, h/2 + min.y, 0)
-        textNode.position = position
-        textNode.scale = SCNVector3(0.02,0.02,0.02)
-        
-        sceneView.scene.rootNode.addChildNode(textNode)
+    func returnData(qaNode: QaNode) {
+        sceneView.scene.rootNode.addChildNode(qaNode)
     }
     
 }
