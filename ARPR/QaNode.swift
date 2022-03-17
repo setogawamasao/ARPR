@@ -12,7 +12,8 @@ class QaNode : SCNNode {
     var answer:String?
     var initPosition:SCNVector3?
     var isAnswered : Bool = false
-    
+    var editingNode :QaNode?
+        
     init(geometry: SCNGeometry) {
         super.init()
         self.geometry = geometry

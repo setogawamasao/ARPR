@@ -98,7 +98,16 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
     // タップのジェスチャーの挙動
     @objc func handleTapped(_ gesture: UIHoverGestureRecognizer) {
         let location = gesture.location(in: self.sceneView)
-        guard let nodeHitTest = self.sceneView.hitTest(location, options: nil).first else {
+        var newPosition:SCNVector3?
+        var isNode = false
+        var editedNode: QaNode?
+        
+        
+        if let hitNode = self.sceneView.hitTest(location, options: nil).first  {
+            editedNode = hitNode.node as? QaNode
+            isNode = true
+        }
+        else{
             // no hit object -> add new qa object
             let addPlane = SCNVector3(x: 0, y: 0, z: -0.3)
             guard let cameraNode = sceneView.pointOfView else { return }
@@ -106,31 +115,40 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
             var screenPosition = sceneView.projectPoint(pointInWorld)
             screenPosition.x = Float(location.x)
             screenPosition.y = Float(location.y)
-            let newPosition = sceneView.unprojectPoint(screenPosition)
-//            self.AddText(question: "追加した?", answer: "追加しました", position: newPosition)
-            
-            if let editModalViewController = self.storyboard?.instantiateViewController(withIdentifier: "EditModal") as? EditModalViewController
-            {
-                editModalViewController.modalPresentationStyle = .popover
-                if let popover = editModalViewController.popoverPresentationController {
-                    let sheet = popover.adaptiveSheetPresentationController
-                    sheet.detents = [.medium()]
-                    sheet.prefersGrabberVisible = true // ハンドルを表示
-                }
-                editModalViewController.initPostition = newPosition
-                editModalViewController.delegate = self
-
-                present(editModalViewController, animated: true, completion: nil)
-            }
-            return
+            newPosition = sceneView.unprojectPoint(screenPosition)
         }
         
-        // hit object -> edit qa object
-        print("exist node");
+        // open edit modal
+        if let editModalViewController = self.storyboard?.instantiateViewController(withIdentifier: "EditModal") as? EditModalViewController
+        {
+            editModalViewController.modalPresentationStyle = .popover
+            editModalViewController.delegate = self
+            if let popover = editModalViewController.popoverPresentationController {
+                let sheet = popover.adaptiveSheetPresentationController
+                sheet.detents = [.medium()]
+                sheet.prefersGrabberVisible = true // ハンドルを表示
+            }
+        
+            if isNode {
+                editModalViewController.editedNode = editedNode
+                editModalViewController.mode = ModalMode.edit
+            }
+            else{
+                editModalViewController.initPostition = newPosition
+                editModalViewController.mode = ModalMode.new
+            }
+
+            
+
+            present(editModalViewController, animated: true, completion: nil)
+        }
+        return
     }
     
-    func returnData(qaNode: QaNode) {
-        sceneView.scene.rootNode.addChildNode(qaNode)
+    func returnData(qaNode: QaNode, mode: ModalMode) {
+        if mode == ModalMode.new {
+            sceneView.scene.rootNode.addChildNode(qaNode)
+        }        
     }
     
 }

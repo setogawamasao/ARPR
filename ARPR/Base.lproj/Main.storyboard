@@ -109,6 +109,7 @@
                     <connections>
                         <outlet property="answerTextField" destination="H3f-jF-u2y" id="0aQ-Gh-BCn"/>
                         <outlet property="questionTextField" destination="6MI-AX-jd0" id="FRT-Kw-GBl"/>
+                        <outlet property="titleLabel" destination="dST-v6-erT" id="Kv6-oh-PNz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UEa-DV-Ko6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

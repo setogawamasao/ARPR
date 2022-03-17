@@ -9,15 +9,23 @@ import UIKit
 import SceneKit
 
 protocol DataReturn {
-    func returnData(qaNode:QaNode)
+    func returnData(qaNode:QaNode,mode:ModalMode)
+}
+
+enum ModalMode {
+    case new
+    case edit
 }
 
 class EditModalViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var questionTextField: UITextField!
     @IBOutlet weak var answerTextField: UITextField!
+    @IBOutlet weak var titleLabel: UILabel!
     
     var initPostition: SCNVector3?
+    var mode:ModalMode = ModalMode.new
+    var editedNode: QaNode?
     
     var delegate: DataReturn?
     
@@ -25,16 +33,38 @@ class EditModalViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         questionTextField.delegate = self
         answerTextField.delegate = self
+        
+        if mode == ModalMode.new{
+            titleLabel.text = "新規作成"
+        }
+        else{
+            titleLabel.text = "編集"
+            questionTextField.text = editedNode?.question
+            answerTextField.text = editedNode?.answer
+        }
+        
     }
     
     @IBAction func save(_ sender: Any) {
-        if let unwrapedQuestion = questionTextField.text,
-           let unwrapedAnswer =  answerTextField.text,
-           let unwrapedInitPosition = initPostition  {
-            let qaNode = QaNode(question: unwrapedQuestion, answer: unwrapedAnswer, initPosition: unwrapedInitPosition)
-            delegate?.returnData(qaNode: qaNode)
-            self.dismiss(animated: true, completion: nil)
+        if mode == ModalMode.new {
+            if let unwrapedQuestion = questionTextField.text,
+               let unwrapedAnswer =  answerTextField.text,
+               let unwrapedInitPosition = initPostition  {
+                let qaNode = QaNode(question: unwrapedQuestion, answer: unwrapedAnswer, initPosition: unwrapedInitPosition)
+                delegate?.returnData(qaNode: qaNode, mode: ModalMode.new)
+            }
         }
+        else{
+            if let unwrapNode = editedNode{
+                if let unwrapedNode = editedNode, let textGeometry = unwrapedNode.geometry as? SCNText {
+                    textGeometry.string = questionTextField.text
+                }
+                unwrapNode.question = questionTextField.text
+                unwrapNode.answer = answerTextField.text
+                delegate?.returnData(qaNode: unwrapNode, mode: ModalMode.new)
+            }
+        }
+        self.dismiss(animated: true, completion: nil)
     }
     
     
