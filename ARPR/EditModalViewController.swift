@@ -45,16 +45,6 @@ class EditModalViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func save(_ sender: Any) {
-        //        if mode == ModalMode.new {
-        //            if let unwrapedQuestion = questionTextField.text,
-        //               let unwrapedAnswer =  answerTextField.text,
-        //               let unwrapedEditNode = editedNode {
-        //                unwrapedEditNode.question = unwrapedQuestion
-        //                unwrapedNode.answer = unwrapedAnswer
-        //                delegate?.returnData(qaNode: qaNode, mode: ModalMode.new)
-        //            }
-        //        }
-        //        else{
         if let unwrapNode = editedNode{
             if let unwrapedNode = editedNode, let textGeometry = unwrapedNode.geometry as? SCNText {
                 textGeometry.string = questionTextField.text

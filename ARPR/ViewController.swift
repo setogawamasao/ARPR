@@ -114,34 +114,26 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
         }
         
         // open edit modal
-        if let editModalViewController = self.storyboard?.instantiateViewController(withIdentifier: "EditModal") as? EditModalViewController
-        {
-            editModalViewController.modalPresentationStyle = .popover
-            editModalViewController.delegate = self
-            if let popover = editModalViewController.popoverPresentationController {
-                let sheet = popover.adaptiveSheetPresentationController
-                sheet.detents = [.medium()]
-                sheet.prefersGrabberVisible = true // ハンドルを表示
-            }
-        
-            if isNode {
-                editModalViewController.editedNode = editedNode
-                editModalViewController.mode = ModalMode.update
-            }
-            else{
-                guard let newPosition = newPosition else {return}
-                let newNode = QaNode(initPosition: newPosition)
-   
-                editModalViewController.editedNode = newNode
-                editModalViewController.mode = ModalMode.new
-            }
-
-            present(editModalViewController, animated: true, completion: nil)
+        if isNode {
+            guard let editedNode = editedNode else {return}
+            self.openEditModal(qaNode: editedNode, mode: ModalMode.update)
         }
-        return
+        else{
+            guard let newPosition = newPosition else {return}
+            let newNode = QaNode(initPosition: newPosition)
+            self.openEditModal(qaNode: newNode, mode: ModalMode.new)
+        }
     }
     
+    // ＋ボタンを押した時の処理
     @IBAction func addNewQa(_ sender: Any) {
+        let newNode = QaNode(initPosition: SCNVector3(0,0.1,-0.3))
+        self.openEditModal(qaNode: newNode, mode: ModalMode.new)
+    }
+    
+    // 編集モーダルを開く
+    func openEditModal(qaNode: QaNode,mode:ModalMode){
+        // open edit modal
         if let editModalViewController = self.storyboard?.instantiateViewController(withIdentifier: "EditModal") as? EditModalViewController
         {
             editModalViewController.modalPresentationStyle = .popover
@@ -152,21 +144,17 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
                 sheet.prefersGrabberVisible = true // ハンドルを表示
             }
         
-            let newNode = QaNode(initPosition: SCNVector3(0,0.1,-0.3))
-            editModalViewController.editedNode = newNode
-            editModalViewController.mode = ModalMode.new
+            editModalViewController.editedNode = qaNode
+            editModalViewController.mode = mode
             present(editModalViewController, animated: true, completion: nil)
         }
     }
     
+    // モーダルを閉じた時の値を受け取るdelegate
     func returnData(qaNode: QaNode, mode: ModalMode) {
         if mode == ModalMode.new {
             qaNode.setText()
             sceneView.scene.rootNode.addChildNode(qaNode)
         }        
-    }
-    
-    func openEditModal(){
-        
     }
 }
