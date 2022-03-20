@@ -15,6 +15,7 @@ protocol DataReturn {
 enum ModalMode {
     case new
     case update
+    case delete
 }
 
 class EditModalViewController: UIViewController, UITextFieldDelegate {
@@ -22,6 +23,7 @@ class EditModalViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var questionTextField: UITextField!
     @IBOutlet weak var answerTextField: UITextField!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var deleteButton: UIButton!
     
     var mode:ModalMode = ModalMode.new
     var editedNode: QaNode?
@@ -35,6 +37,7 @@ class EditModalViewController: UIViewController, UITextFieldDelegate {
         
         if mode == ModalMode.new{
             titleLabel.text = "新規作成"
+            deleteButton.isHidden = true
         }
         else{
             titleLabel.text = "編集"
@@ -44,6 +47,7 @@ class EditModalViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    // 保存ボタン
     @IBAction func save(_ sender: Any) {
         if let unwrapNode = editedNode{
             if let unwrapedNode = editedNode, let textGeometry = unwrapedNode.geometry as? SCNText {
@@ -58,6 +62,13 @@ class EditModalViewController: UIViewController, UITextFieldDelegate {
             }
         }
         
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+   // 削除ボタン
+    @IBAction func deleteQa(_ sender: Any) {
+        guard let editedNode = editedNode else { return }
+        delegate?.returnData(qaNode: editedNode, mode: ModalMode.delete)
         self.dismiss(animated: true, completion: nil)
     }
     

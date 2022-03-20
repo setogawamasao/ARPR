@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		981A424B27E6FC6800B4B980 /* gun.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 981A424A27E6FC6800B4B980 /* gun.mp3 */; };
 		982CAC2C27DBA98F0036F926 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982CAC2B27DBA98F0036F926 /* AppDelegate.swift */; };
 		982CAC2E27DBA98F0036F926 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 982CAC2D27DBA98F0036F926 /* art.scnassets */; };
 		982CAC3027DBA98F0036F926 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982CAC2F27DBA98F0036F926 /* ViewController.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		981A424A27E6FC6800B4B980 /* gun.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gun.mp3; sourceTree = "<group>"; };
 		982CAC2827DBA98F0036F926 /* ARPR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARPR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		982CAC2B27DBA98F0036F926 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		982CAC2D27DBA98F0036F926 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				982CAC2D27DBA98F0036F926 /* art.scnassets */,
 				982CAC2F27DBA98F0036F926 /* ViewController.swift */,
 				982D752E27E201A10008FC35 /* QaNode.swift */,
+				981A424A27E6FC6800B4B980 /* gun.mp3 */,
 				982CAC3127DBA98F0036F926 /* Main.storyboard */,
 				982D755227E367560008FC35 /* EditModalViewController.swift */,
 				982CAC3427DBA98F0036F926 /* Assets.xcassets */,
@@ -132,6 +135,7 @@
 				982CAC2E27DBA98F0036F926 /* art.scnassets in Resources */,
 				982CAC3827DBA98F0036F926 /* LaunchScreen.storyboard in Resources */,
 				982CAC3527DBA98F0036F926 /* Assets.xcassets in Resources */,
+				981A424B27E6FC6800B4B980 /* gun.mp3 in Resources */,
 				982CAC3327DBA98F0036F926 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

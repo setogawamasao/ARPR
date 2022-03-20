@@ -16,6 +16,7 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
     var currentHandPoseObservation: VNHumanHandPoseObservation?
     var viewWidth:Int = 0
     var viewHeight:Int = 0
+    var player:AVAudioPlayer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,10 +70,15 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
         
         if let textGeometry = nodeHit.geometry as? SCNText {
             if !nodeHit.isAnswered {
+                // change action
+                self.playSound()
                 let rotate = SCNAction.rotateBy(x: 2 * .pi, y: 0, z: 0, duration: 0.5)
                 rotate.timingMode = .easeInEaseOut
                 nodeHit.runAction(.sequence([rotate]))
                 textGeometry.firstMaterial?.diffuse.contents = UIColor.red
+                
+                
+                // text change
                 textGeometry.string = nodeHit.answer
                 nodeHit.isAnswered = true
             }
@@ -155,6 +161,19 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
         if mode == ModalMode.new {
             qaNode.setText()
             sceneView.scene.rootNode.addChildNode(qaNode)
-        }        
+        } else if mode == ModalMode.delete {
+            qaNode.removeFromParentNode()
+        }
+    }
+    
+    func playSound() {
+        if let soundURL = Bundle.main.url(forResource: "gun", withExtension: "mp3") {
+            do {
+                player = try AVAudioPlayer(contentsOf: soundURL)
+                player?.play()
+            } catch {
+                print("error")
+            }
+        }
     }
 }
