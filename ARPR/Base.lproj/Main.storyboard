@@ -30,11 +30,18 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="v9n-s1-UJM">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="KG3-bM-lmd">
-                            <connections>
-                                <action selector="addNewQa:" destination="BV1-FR-VrT" id="935-gl-kdW"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem style="plain" systemItem="add" id="KG3-bM-lmd">
+                                <connections>
+                                    <action selector="addNewQa:" destination="BV1-FR-VrT" id="935-gl-kdW"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Item" image="arrow.uturn.left" catalog="system" style="plain" id="aF8-Re-ICm">
+                                <connections>
+                                    <action selector="resetQA:" destination="BV1-FR-VrT" id="1rI-V2-9C0"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>
@@ -170,6 +177,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="arrow.uturn.left" catalog="system" width="128" height="112"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -44,6 +44,11 @@ class EditModalViewController: UIViewController, UITextFieldDelegate {
             answerTextField.text = editedNode?.answer
         }
         
+        // ↓↓ リリース時は消す ↓↓
+        questionTextField.text = "あいう"
+        answerTextField.text = "えお"
+        // ↑↑ リリース時は消す ↑↑
+        
     }
     
     // 保存ボタン

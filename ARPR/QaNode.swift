@@ -55,5 +55,11 @@ class QaNode : SCNNode {
         self.scale = SCNVector3(0.02,0.02,0.02)
     }
     
+    func reset(){
+        self.isAnswered = false
+        guard let textGeometry = self.geometry as? SCNText else { return }
+        textGeometry.string = self.question
+        textGeometry.firstMaterial?.diffuse.contents = UIColor.green
+    }
     
 }

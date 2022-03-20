@@ -137,6 +137,13 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
         self.openEditModal(qaNode: newNode, mode: ModalMode.new)
     }
     
+    // reset処理
+    @IBAction func resetQA(_ sender: Any) {
+        for node in sceneView.scene.rootNode.childNodes {
+            guard let qaNode = node as? QaNode else { continue }
+            qaNode.reset()
+        }
+    }
     // 編集モーダルを開く
     func openEditModal(qaNode: QaNode,mode:ModalMode){
         // open edit modal
