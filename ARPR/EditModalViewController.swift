@@ -15,7 +15,6 @@ protocol DataReturn {
 enum ModalMode {
     case new
     case update
-    case delete
 }
 
 class EditModalViewController: UIViewController, UITextFieldDelegate {
@@ -68,7 +67,7 @@ class EditModalViewController: UIViewController, UITextFieldDelegate {
    // 削除ボタン
     @IBAction func deleteQa(_ sender: Any) {
         guard let editedNode = editedNode else { return }
-        delegate?.returnData(qaNode: editedNode, mode: ModalMode.delete)
+        editedNode.removeFromParentNode()
         self.dismiss(animated: true, completion: nil)
     }
     

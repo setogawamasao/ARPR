@@ -161,8 +161,6 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
         if mode == ModalMode.new {
             qaNode.setText()
             sceneView.scene.rootNode.addChildNode(qaNode)
-        } else if mode == ModalMode.delete {
-            qaNode.removeFromParentNode()
         }
     }
     
