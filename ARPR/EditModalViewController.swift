@@ -14,7 +14,7 @@ protocol DataReturn {
 
 enum ModalMode {
     case new
-    case edit
+    case update
 }
 
 class EditModalViewController: UIViewController, UITextFieldDelegate {
@@ -23,7 +23,6 @@ class EditModalViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var answerTextField: UITextField!
     @IBOutlet weak var titleLabel: UILabel!
     
-    var initPostition: SCNVector3?
     var mode:ModalMode = ModalMode.new
     var editedNode: QaNode?
     
@@ -46,27 +45,31 @@ class EditModalViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func save(_ sender: Any) {
-        if mode == ModalMode.new {
-            if let unwrapedQuestion = questionTextField.text,
-               let unwrapedAnswer =  answerTextField.text,
-               let unwrapedInitPosition = initPostition  {
-                let qaNode = QaNode(question: unwrapedQuestion, answer: unwrapedAnswer, initPosition: unwrapedInitPosition)
-                delegate?.returnData(qaNode: qaNode, mode: ModalMode.new)
+        //        if mode == ModalMode.new {
+        //            if let unwrapedQuestion = questionTextField.text,
+        //               let unwrapedAnswer =  answerTextField.text,
+        //               let unwrapedEditNode = editedNode {
+        //                unwrapedEditNode.question = unwrapedQuestion
+        //                unwrapedNode.answer = unwrapedAnswer
+        //                delegate?.returnData(qaNode: qaNode, mode: ModalMode.new)
+        //            }
+        //        }
+        //        else{
+        if let unwrapNode = editedNode{
+            if let unwrapedNode = editedNode, let textGeometry = unwrapedNode.geometry as? SCNText {
+                textGeometry.string = questionTextField.text
             }
-        }
-        else{
-            if let unwrapNode = editedNode{
-                if let unwrapedNode = editedNode, let textGeometry = unwrapedNode.geometry as? SCNText {
-                    textGeometry.string = questionTextField.text
-                }
-                unwrapNode.question = questionTextField.text
-                unwrapNode.answer = answerTextField.text
+            unwrapNode.question = questionTextField.text
+            unwrapNode.answer = answerTextField.text
+            if mode == ModalMode.new {
                 delegate?.returnData(qaNode: unwrapNode, mode: ModalMode.new)
+            }else{
+                delegate?.returnData(qaNode: unwrapNode, mode: ModalMode.update)
             }
         }
+        
         self.dismiss(animated: true, completion: nil)
     }
-    
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)

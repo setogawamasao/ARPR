@@ -29,7 +29,13 @@
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="top" secondItem="U0K-SW-4ec" secondAttribute="top" id="rJc-2c-zQA"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="v9n-s1-UJM"/>
+                    <navigationItem key="navigationItem" id="v9n-s1-UJM">
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="KG3-bM-lmd">
+                            <connections>
+                                <action selector="addNewQa:" destination="BV1-FR-VrT" id="935-gl-kdW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>
                     </connections>
@@ -82,6 +88,11 @@
                                 <buttonConfiguration key="configuration" style="plain" title="保存">
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="6"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="save:" destination="hxO-bH-d7M" eventType="touchUpInside" id="hZ6-TK-if1"/>
                                 </connections>

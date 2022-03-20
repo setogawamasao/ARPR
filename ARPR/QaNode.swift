@@ -13,6 +13,12 @@ class QaNode : SCNNode {
     var initPosition:SCNVector3?
     var isAnswered : Bool = false
     var editingNode :QaNode?
+    
+    init(initPosition: SCNVector3) {
+        super.init()
+        self.initPosition = initPosition
+        self.setText()
+    }
         
     init(geometry: SCNGeometry) {
         super.init()
@@ -24,7 +30,7 @@ class QaNode : SCNNode {
         self.question = question
         self.answer = answer
         self.position = initPosition
-        self.create()
+        self.setText()
     }
     
     // Xcode required this
@@ -32,7 +38,7 @@ class QaNode : SCNNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func create(){
+    func setText(){
         let text = SCNText(string: self.question, extrusionDepth: 0.5)
         text.font = UIFont(name: "HiraginoSans-W6", size: 1 )
         text.firstMaterial?.diffuse.contents = UIColor.green
@@ -48,4 +54,6 @@ class QaNode : SCNNode {
         }
         self.scale = SCNVector3(0.02,0.02,0.02)
     }
+    
+    
 }

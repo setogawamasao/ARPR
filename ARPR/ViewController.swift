@@ -35,12 +35,8 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
         // ライトの追加
         sceneView.autoenablesDefaultLighting = true
         // 初期QAの追加
-        let qaNode1 = QaNode(question: "年齢は?", answer: "32歳", initPosition: SCNVector3(0,0,-0.3))
+        let qaNode1 = QaNode(question: "年齢は?", answer: "32歳", initPosition: SCNVector3(0,0.07,-0.3))
         sceneView.scene.rootNode.addChildNode(qaNode1)
-        
-//        self.AddText(question: "学歴は?", answer: "院卒", position: SCNVector3(0.05,0.25,-0.3))
-//        self.AddText(question: "職業は?", answer: "SE", position: SCNVector3(-0.05,-0.05,-0.3))
-//        self.AddText(question: "年収は?", answer: "600", position: SCNVector3(0.05,-0.05,-0.3))
     }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
@@ -63,7 +59,7 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
         }
     }
     
-    // AR ジェスチャー
+    // ARジェスチャー
     func Answer(handPoseObservation: VNHumanHandPoseObservation) {
         guard let indexFingerTip = try? handPoseObservation.recognizedPoints(.all)[.indexTip],indexFingerTip.confidence > 0.3 else { return }
         let indexTip = VNImagePointForNormalizedPoint(CGPoint(x: indexFingerTip.location.x, y:1-indexFingerTip.location.y), viewWidth,  viewHeight)
@@ -102,7 +98,6 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
         var isNode = false
         var editedNode: QaNode?
         
-        
         if let hitNode = self.sceneView.hitTest(location, options: nil).first  {
             editedNode = hitNode.node as? QaNode
             isNode = true
@@ -131,24 +126,47 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
         
             if isNode {
                 editModalViewController.editedNode = editedNode
-                editModalViewController.mode = ModalMode.edit
+                editModalViewController.mode = ModalMode.update
             }
             else{
-                editModalViewController.initPostition = newPosition
+                guard let newPosition = newPosition else {return}
+                let newNode = QaNode(initPosition: newPosition)
+   
+                editModalViewController.editedNode = newNode
                 editModalViewController.mode = ModalMode.new
             }
-
-            
 
             present(editModalViewController, animated: true, completion: nil)
         }
         return
     }
     
+    @IBAction func addNewQa(_ sender: Any) {
+        if let editModalViewController = self.storyboard?.instantiateViewController(withIdentifier: "EditModal") as? EditModalViewController
+        {
+            editModalViewController.modalPresentationStyle = .popover
+            editModalViewController.delegate = self
+            if let popover = editModalViewController.popoverPresentationController {
+                let sheet = popover.adaptiveSheetPresentationController
+                sheet.detents = [.medium()]
+                sheet.prefersGrabberVisible = true // ハンドルを表示
+            }
+        
+            let newNode = QaNode(initPosition: SCNVector3(0,0.1,-0.3))
+            editModalViewController.editedNode = newNode
+            editModalViewController.mode = ModalMode.new
+            present(editModalViewController, animated: true, completion: nil)
+        }
+    }
+    
     func returnData(qaNode: QaNode, mode: ModalMode) {
         if mode == ModalMode.new {
+            qaNode.setText()
             sceneView.scene.rootNode.addChildNode(qaNode)
         }        
     }
     
+    func openEditModal(){
+        
+    }
 }
