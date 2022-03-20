@@ -68,20 +68,9 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
         guard let nodeHitTest = sceneView.hitTest(indexTip, options: nil).first else { return }
         guard let nodeHit = nodeHitTest.node as? QaNode else { return }
         
-        if let textGeometry = nodeHit.geometry as? SCNText {
-            if !nodeHit.isAnswered {
-                // change action
-                self.playSound()
-                let rotate = SCNAction.rotateBy(x: 2 * .pi, y: 0, z: 0, duration: 0.5)
-                rotate.timingMode = .easeInEaseOut
-                nodeHit.runAction(.sequence([rotate]))
-                textGeometry.firstMaterial?.diffuse.contents = UIColor.red
-                
-                
-                // text change
-                textGeometry.string = nodeHit.answer
-                nodeHit.isAnswered = true
-            }
+        if !nodeHit.isAnswered {
+            self.playSound()
+            nodeHit.answerQa()
         }
     }
     

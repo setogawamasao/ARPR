@@ -62,4 +62,14 @@ class QaNode : SCNNode {
         textGeometry.firstMaterial?.diffuse.contents = UIColor.green
     }
     
+    func answerQa(){
+        let rotate = SCNAction.rotateBy(x: 2 * .pi, y: 0, z: 0, duration: 0.5)
+        rotate.timingMode = .easeInEaseOut
+        self.runAction(.sequence([rotate]))
+        guard let textGeometry = self.geometry as? SCNText else { return }
+        textGeometry.firstMaterial?.diffuse.contents = UIColor.red
+        textGeometry.string = self.answer
+        self.isAnswered = true
+    }
+    
 }
