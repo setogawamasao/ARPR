@@ -36,8 +36,18 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
         // ライトの追加
         sceneView.autoenablesDefaultLighting = true
         // 初期QAの追加
-        let qaNode1 = QaNode(question: "年齢は?", answer: "32歳", initPosition: SCNVector3(0,0.07,-0.3))
+        let qaNode1 = QaNode(question: "今日は何日?", answer: "\(self.getToday())", initPosition: SCNVector3(0,0.07,-0.3))
         sceneView.scene.rootNode.addChildNode(qaNode1)
+    }
+    
+    func getToday() -> String{
+        let dt = Date()
+        let dateFormatter = DateFormatter()
+
+        // DateFormatter を使用して書式とロケールを指定する
+        dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "yyyy/MM/dd", options: 0, locale: Locale(identifier: Locale.preferredLanguages.first!))
+
+        return dateFormatter.string(from: dt)
     }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
@@ -130,7 +140,7 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
     @IBAction func resetQA(_ sender: Any) {
         for node in sceneView.scene.rootNode.childNodes {
             guard let qaNode = node as? QaNode else { continue }
-            qaNode.reset()
+            qaNode.resetQa()
         }
     }
     // 編集モーダルを開く
@@ -155,11 +165,12 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
     // モーダルを閉じた時の値を受け取るdelegate
     func returnData(qaNode: QaNode, mode: ModalMode) {
         if mode == ModalMode.new {
-            // qaNode.setText()
+            qaNode.initializeNode()
             sceneView.scene.rootNode.addChildNode(qaNode)
         }
     }
     
+    // 音声再生
     func playSound() {
         if let soundURL = Bundle.main.url(forResource: "gun", withExtension: "mp3") {
             do {

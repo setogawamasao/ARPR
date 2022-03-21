@@ -37,18 +37,17 @@ class EditModalViewController: UIViewController, UITextFieldDelegate {
         if mode == ModalMode.new{
             titleLabel.text = "新規作成"
             deleteButton.isHidden = true
+            
+            // ↓↓ リリース時は消す ↓↓
+            questionTextField.text = "あいう"
+            answerTextField.text = "えお"
+            // ↑↑ リリース時は消す ↑↑
         }
         else{
             titleLabel.text = "編集"
             questionTextField.text = editedNode?.question
             answerTextField.text = editedNode?.answer
         }
-        
-        // ↓↓ リリース時は消す ↓↓
-        questionTextField.text = "あいう"
-        answerTextField.text = "えお"
-        // ↑↑ リリース時は消す ↑↑
-        
     }
     
     // 保存ボタン
