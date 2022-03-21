@@ -14,11 +14,16 @@ import ReplayKit
 class ViewController: UIViewController, ARSessionDelegate, DataReturn, RPPreviewViewControllerDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
+    @IBOutlet weak var addQaButton: UIBarButtonItem!
+    @IBOutlet weak var resetQaButton: UIBarButtonItem!
+    @IBOutlet weak var initializeButton: UIBarButtonItem!
+    @IBOutlet weak var switchRecordButton: UIButton!
+    
     var currentHandPoseObservation: VNHumanHandPoseObservation?
     var viewWidth:Int = 0
     var viewHeight:Int = 0
     var player:AVAudioPlayer?
-    
+    var barButtonColor = UIColor.init(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,13 +47,11 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn, RPPreview
         sceneView.scene.rootNode.addChildNode(qaNode1)
     }
     
+    // 本日日付取得処理
     func getToday() -> String{
         let dt = Date()
         let dateFormatter = DateFormatter()
-
-        // DateFormatter を使用して書式とロケールを指定する
         dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "yyyy/MM/dd", options: 0, locale: Locale(identifier: Locale.preferredLanguages.first!))
-
         return dateFormatter.string(from: dt)
     }
     
@@ -188,6 +191,7 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn, RPPreview
                     print("error stopping recording (was it running?)")
                 }
             })
+            self.switchShowBarButton(ishow: true)
         } else{
             // 録画開始処理
             print("record start")
@@ -197,7 +201,31 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn, RPPreview
                     debugPrint(#function, "recording something failed", error)
                 }
             })
+            
+            self.switchShowBarButton(ishow: false)
         }
+    }
+    
+    func switchShowBarButton(ishow:Bool){
+        let barButtonColor = UIColor.init(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)
+        if ishow {
+            self.switchRecordButton.setTitle("録画", for: .normal)
+            self.addQaButton.isEnabled = true
+            self.addQaButton.tintColor = barButtonColor
+            self.resetQaButton.isEnabled = true
+            self.resetQaButton.tintColor = barButtonColor
+            self.initializeButton.isEnabled = true
+            self.initializeButton.tintColor = barButtonColor
+        } else{
+            self.switchRecordButton.setTitle("停止", for: .normal)
+            self.addQaButton.isEnabled = false
+            self.addQaButton.tintColor = UIColor.clear
+            self.resetQaButton.isEnabled = false
+            self.resetQaButton.tintColor = UIColor.clear
+            self.initializeButton.isEnabled = false
+            self.initializeButton.tintColor = UIColor.clear
+        }
+        
     }
     
     // 録画プレビューのキャンセル処理

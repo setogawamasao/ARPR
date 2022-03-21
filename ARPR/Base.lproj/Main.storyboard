@@ -59,7 +59,11 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="addQaButton" destination="KG3-bM-lmd" id="JoR-4p-u2t"/>
+                        <outlet property="initializeButton" destination="FnV-1d-OqB" id="Ebe-56-Nbe"/>
+                        <outlet property="resetQaButton" destination="aF8-Re-ICm" id="nCl-5G-LFz"/>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>
+                        <outlet property="switchRecordButton" destination="hMa-KC-svm" id="nDI-2l-xvC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
