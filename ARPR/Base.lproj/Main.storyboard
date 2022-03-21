@@ -30,6 +30,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="v9n-s1-UJM">
+                        <barButtonItem key="leftBarButtonItem" title="初めから" style="plain" id="FnV-1d-OqB">
+                            <connections>
+                                <action selector="initialize:" destination="BV1-FR-VrT" id="jFo-1E-pZp"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem style="plain" systemItem="add" id="KG3-bM-lmd">
                                 <connections>

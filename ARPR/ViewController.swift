@@ -170,6 +170,11 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
         }
     }
     
+    
+    @IBAction func initialize(_ sender: Any) {
+        self.viewDidLoad()
+    }
+    
     // 音声再生
     func playSound() {
         if let soundURL = Bundle.main.url(forResource: "gun", withExtension: "mp3") {
