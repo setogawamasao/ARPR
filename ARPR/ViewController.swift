@@ -9,14 +9,16 @@ import UIKit
 import SceneKit
 import ARKit
 import Vision
+import ReplayKit
 
-class ViewController: UIViewController, ARSessionDelegate, DataReturn {
+class ViewController: UIViewController, ARSessionDelegate, DataReturn, RPPreviewViewControllerDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
     var currentHandPoseObservation: VNHumanHandPoseObservation?
     var viewWidth:Int = 0
     var viewHeight:Int = 0
     var player:AVAudioPlayer?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -170,7 +172,42 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
         }
     }
     
+    // 録画開始・録画停止
+    @IBAction func switchRecording(_ sender: Any) {
+        print("record")
+        if RPScreenRecorder.shared().isRecording  {
+            // 録画停止処理
+            print("record stop")
+            RPScreenRecorder.shared().stopRecording(handler: { (previewController, error) in
+                if let previewController = previewController {
+                    previewController.previewControllerDelegate = self
+                    DispatchQueue.main.async {
+                        self.present(previewController, animated: true, completion: nil)
+                    }
+                } else {
+                    print("error stopping recording (was it running?)")
+                }
+            })
+        } else{
+            // 録画開始処理
+            print("record start")
+            RPScreenRecorder.shared().isMicrophoneEnabled = true
+            RPScreenRecorder.shared().startRecording(handler: { (error) in
+                if let error = error {
+                    debugPrint(#function, "recording something failed", error)
+                }
+            })
+        }
+    }
     
+    // 録画プレビューのキャンセル処理
+    func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
+        DispatchQueue.main.async { [unowned previewController] in
+            previewController.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    // はじめからのボタンを押した時の処理
     @IBAction func initialize(_ sender: Any) {
         self.viewDidLoad()
     }

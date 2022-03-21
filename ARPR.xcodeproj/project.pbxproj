@@ -302,6 +302,9 @@
 				DEVELOPMENT_TEAM = 7Q29GXUS8G;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone Usage Description　です。";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Photo Library Additions Usage Description　です。";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Photo Library Usage Description　です。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -332,6 +335,9 @@
 				DEVELOPMENT_TEAM = 7Q29GXUS8G;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone Usage Description　です。";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Photo Library Additions Usage Description　です。";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Photo Library Usage Description　です。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

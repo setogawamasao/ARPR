@@ -30,11 +30,21 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="v9n-s1-UJM">
+                        <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" title="初めから" style="plain" id="FnV-1d-OqB">
                             <connections>
                                 <action selector="initialize:" destination="BV1-FR-VrT" id="jFo-1E-pZp"/>
                             </connections>
                         </barButtonItem>
+                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="hMa-KC-svm">
+                            <rect key="frame" x="169.5" y="5" width="75" height="34.5"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="録画"/>
+                            <connections>
+                                <action selector="switchRecording:" destination="BV1-FR-VrT" eventType="touchUpInside" id="fGO-h9-dhP"/>
+                            </connections>
+                        </button>
                         <rightBarButtonItems>
                             <barButtonItem style="plain" systemItem="add" id="KG3-bM-lmd">
                                 <connections>
