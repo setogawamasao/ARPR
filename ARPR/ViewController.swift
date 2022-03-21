@@ -69,8 +69,8 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
         guard let nodeHit = nodeHitTest.node as? QaNode else { return }
         
         if !nodeHit.isAnswered {
-            self.playSound()
             nodeHit.answerQa()
+            self.playSound()
         }
     }
     
@@ -155,7 +155,7 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn {
     // モーダルを閉じた時の値を受け取るdelegate
     func returnData(qaNode: QaNode, mode: ModalMode) {
         if mode == ModalMode.new {
-            qaNode.setText()
+            // qaNode.setText()
             sceneView.scene.rootNode.addChildNode(qaNode)
         }
     }
