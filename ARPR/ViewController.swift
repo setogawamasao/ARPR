@@ -22,7 +22,8 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn, RPPreview
     var currentHandPoseObservation: VNHumanHandPoseObservation?
     var viewWidth:Int = 0
     var viewHeight:Int = 0
-    var player:AVAudioPlayer?
+    //var player:AVAudioPlayer?
+    var seManager:SEManager!
     var barButtonColor = UIColor.init(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)
     
     override func viewDidLoad() {
@@ -35,6 +36,8 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn, RPPreview
         let config = ARFaceTrackingConfiguration()
         sceneView.session.delegate = self
         sceneView.session.run(config, options: [.removeExistingAnchors])
+        
+        seManager = SEManager.sharedInstance
         
         // ドラッグ＆ドロップの画面上のジェスチャーを検知
         sceneView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(ViewController.handleMove(_:))))
@@ -242,13 +245,10 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn, RPPreview
     
     // 音声再生
     func playSound() {
-        if let soundURL = Bundle.main.url(forResource: "gun", withExtension: "mp3") {
-            do {
-                player = try AVAudioPlayer(contentsOf: soundURL)
-                player?.play()
-            } catch {
-                print("error")
-            }
+        do{
+        try seManager.playSound(soundName: "gun.mp3")
+        } catch {
+            print(error)
         }
     }
 }

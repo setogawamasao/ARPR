@@ -16,6 +16,7 @@
 		982CAC3827DBA98F0036F926 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 982CAC3627DBA98F0036F926 /* LaunchScreen.storyboard */; };
 		982D752F27E201A10008FC35 /* QaNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982D752E27E201A10008FC35 /* QaNode.swift */; };
 		982D755327E367560008FC35 /* EditModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982D755227E367560008FC35 /* EditModalViewController.swift */; };
+		989BADE327E8C01C004717BE /* SEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989BADE227E8C01C004717BE /* SEManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		982CAC3727DBA98F0036F926 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		982D752E27E201A10008FC35 /* QaNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QaNode.swift; sourceTree = "<group>"; };
 		982D755227E367560008FC35 /* EditModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditModalViewController.swift; sourceTree = "<group>"; };
+		989BADE227E8C01C004717BE /* SEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 		982CAC2A27DBA98F0036F926 /* ARPR */ = {
 			isa = PBXGroup;
 			children = (
+				989BADE227E8C01C004717BE /* SEManager.swift */,
 				982CAC2B27DBA98F0036F926 /* AppDelegate.swift */,
 				982CAC2D27DBA98F0036F926 /* art.scnassets */,
 				982CAC2F27DBA98F0036F926 /* ViewController.swift */,
@@ -148,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				982CAC3027DBA98F0036F926 /* ViewController.swift in Sources */,
+				989BADE327E8C01C004717BE /* SEManager.swift in Sources */,
 				982CAC2C27DBA98F0036F926 /* AppDelegate.swift in Sources */,
 				982D755327E367560008FC35 /* EditModalViewController.swift in Sources */,
 				982D752F27E201A10008FC35 /* QaNode.swift in Sources */,

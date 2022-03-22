@@ -53,11 +53,14 @@ class EditModalViewController: UIViewController, UITextFieldDelegate {
     // 保存ボタン
     @IBAction func save(_ sender: Any) {
         if let unwrapNode = editedNode{
-            if let unwrapedNode = editedNode, let textGeometry = unwrapedNode.geometry as? SCNText {
+            if let unwrapedNode = editedNode,
+               let textNode = unwrapedNode.textNode,
+               let textGeometry = textNode.geometry as? SCNText {
                 textGeometry.string = questionTextField.text
             }
             unwrapNode.question = questionTextField.text
             unwrapNode.answer = answerTextField.text
+            unwrapNode.centerPivot()
             if mode == ModalMode.new {
                 delegate?.returnData(qaNode: unwrapNode, mode: ModalMode.new)
             }else{
