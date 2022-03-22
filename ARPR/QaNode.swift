@@ -14,6 +14,8 @@ class QaNode : SCNNode {
     var isAnswered : Bool = false
     var textNode:SCNNode?
     var textDepth = 0.01
+    var questionColor:UIColor = UIColor.green
+    var answerColor:UIColor = UIColor.red
     
     init(initPosition: SCNVector3) {
         super.init()
@@ -43,7 +45,7 @@ class QaNode : SCNNode {
         textNode.scale = SCNVector3(0.02,0.02,0.99)
         self.textNode = textNode
         self.geometry = SCNBox()
-        self.geometry?.firstMaterial?.diffuse.contents = UIColor(red: 255, green: 255, blue: 255, alpha: 0.5)
+        self.geometry?.firstMaterial?.diffuse.contents = UIColor(red: 255, green: 255, blue: 255, alpha: 0)
         self.centerPivot()
         
         if let unwrapedInitPosition = self.initPosition {
@@ -56,7 +58,7 @@ class QaNode : SCNNode {
         guard let textNode = self.textNode ,
               let textGeometry = textNode.geometry as? SCNText else { return }
         textGeometry.string = self.question
-        textGeometry.firstMaterial?.diffuse.contents = UIColor.green
+        textGeometry.firstMaterial?.diffuse.contents = self.questionColor
         self.centerPivot()
         self.isAnswered = false
     }
@@ -70,7 +72,7 @@ class QaNode : SCNNode {
         guard let textNode = self.textNode ,
               let textGeometry = textNode.geometry as? SCNText else { return }
         textGeometry.string = self.answer
-        textGeometry.firstMaterial?.diffuse.contents = UIColor.red
+        textGeometry.firstMaterial?.diffuse.contents = self.answerColor
         self.centerPivot()
         self.isAnswered = true
     }

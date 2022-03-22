@@ -143,22 +143,64 @@
                                     <action selector="deleteQa:" destination="hxO-bH-d7M" eventType="touchUpInside" id="2iP-bJ-QXl"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y1L-re-c6V">
+                                <rect key="frame" x="80" y="95" width="39" height="24"/>
+                                <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="EIb-Vl-5aI"/>
+                                    <constraint firstAttribute="width" constant="39" id="Qia-Nn-L3m"/>
+                                </constraints>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="色"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="6"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="pickQuestionColor:" destination="hxO-bH-d7M" eventType="touchUpInside" id="kq9-1D-Z0d"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OKX-7B-glw">
+                                <rect key="frame" x="80" y="171" width="39" height="24"/>
+                                <color key="backgroundColor" systemColor="systemRedColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="7dm-Ei-YPL"/>
+                                    <constraint firstAttribute="width" constant="39" id="AHI-95-S6h"/>
+                                </constraints>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="色"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="6"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="pickAnswerColor:" destination="hxO-bH-d7M" eventType="touchUpInside" id="APT-de-VJ9"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="g8C-hH-MsW"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="47a-bD-Qae" firstAttribute="top" secondItem="g8C-hH-MsW" secondAttribute="top" constant="51" id="4Ot-S4-ezf"/>
+                            <constraint firstItem="Y1L-re-c6V" firstAttribute="top" secondItem="g8C-hH-MsW" secondAttribute="top" constant="51" id="4X4-tf-t3v"/>
                             <constraint firstItem="8hi-2a-GiQ" firstAttribute="leading" secondItem="g8C-hH-MsW" secondAttribute="leading" constant="20" id="FSV-PO-Zoa"/>
                             <constraint firstItem="47a-bD-Qae" firstAttribute="leading" secondItem="g8C-hH-MsW" secondAttribute="leading" constant="20" id="FW4-D0-g4Z"/>
                             <constraint firstItem="H3f-jF-u2y" firstAttribute="top" secondItem="8hi-2a-GiQ" secondAttribute="bottom" constant="8" id="G19-Um-9Wy"/>
                             <constraint firstItem="dST-v6-erT" firstAttribute="top" secondItem="g8C-hH-MsW" secondAttribute="top" constant="20" id="JfG-Vv-sL6"/>
                             <constraint firstItem="Tow-CM-Sxi" firstAttribute="top" secondItem="H3f-jF-u2y" secondAttribute="bottom" constant="37" id="MO2-Cb-IMn"/>
                             <constraint firstItem="Tow-CM-Sxi" firstAttribute="centerX" secondItem="DnO-PQ-rD9" secondAttribute="centerX" id="Tym-8Y-mz1"/>
+                            <constraint firstItem="OKX-7B-glw" firstAttribute="leading" secondItem="8hi-2a-GiQ" secondAttribute="trailing" constant="19" id="UbL-mv-PnN"/>
                             <constraint firstItem="H3f-jF-u2y" firstAttribute="leading" secondItem="g8C-hH-MsW" secondAttribute="leading" constant="20" id="V2e-wb-Rga"/>
                             <constraint firstItem="Aqj-OP-hq8" firstAttribute="top" secondItem="g8C-hH-MsW" secondAttribute="top" constant="17" id="YcA-x9-V2T"/>
                             <constraint firstItem="g8C-hH-MsW" firstAttribute="trailing" secondItem="H3f-jF-u2y" secondAttribute="trailing" constant="20" id="Zrk-0i-345"/>
+                            <constraint firstItem="OKX-7B-glw" firstAttribute="top" secondItem="6MI-AX-jd0" secondAttribute="bottom" constant="10" id="bfx-kf-bMq"/>
                             <constraint firstItem="6MI-AX-jd0" firstAttribute="leading" secondItem="g8C-hH-MsW" secondAttribute="leading" constant="20" id="d9L-cH-wle"/>
                             <constraint firstItem="8hi-2a-GiQ" firstAttribute="top" secondItem="6MI-AX-jd0" secondAttribute="bottom" constant="10" id="hFt-Gd-sMb"/>
+                            <constraint firstItem="Y1L-re-c6V" firstAttribute="leading" secondItem="47a-bD-Qae" secondAttribute="trailing" constant="19" id="iPm-hp-hRq"/>
                             <constraint firstItem="g8C-hH-MsW" firstAttribute="trailing" secondItem="6MI-AX-jd0" secondAttribute="trailing" constant="20" id="kBB-bW-xh7"/>
                             <constraint firstItem="6MI-AX-jd0" firstAttribute="top" secondItem="47a-bD-Qae" secondAttribute="bottom" constant="8" id="lb4-Mf-s3i"/>
                             <constraint firstItem="g8C-hH-MsW" firstAttribute="trailing" secondItem="Aqj-OP-hq8" secondAttribute="trailing" constant="20" id="nl0-Pk-jb1"/>
@@ -166,8 +208,10 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="answerColorButton" destination="OKX-7B-glw" id="1WA-Lo-MZs"/>
                         <outlet property="answerTextField" destination="H3f-jF-u2y" id="0aQ-Gh-BCn"/>
                         <outlet property="deleteButton" destination="Tow-CM-Sxi" id="hDy-Sf-Slf"/>
+                        <outlet property="questionColorButton" destination="Y1L-re-c6V" id="nPe-M7-6oS"/>
                         <outlet property="questionTextField" destination="6MI-AX-jd0" id="FRT-Kw-GBl"/>
                         <outlet property="titleLabel" destination="dST-v6-erT" id="Kv6-oh-PNz"/>
                     </connections>
@@ -199,6 +243,12 @@
         <image name="arrow.uturn.left" catalog="system" width="128" height="112"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tintColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
