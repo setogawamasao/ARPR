@@ -40,7 +40,7 @@ class QaNode : SCNNode {
         let textNode = SCNNode()
         let text = SCNText(string: self.question, extrusionDepth: self.textDepth)
         text.font = UIFont(name: "HiraginoSans-W6", size: 1 )
-        text.firstMaterial?.diffuse.contents = UIColor.green
+        text.firstMaterial?.diffuse.contents = self.questionColor
         textNode.geometry = text
         textNode.scale = SCNVector3(0.02,0.02,0.99)
         self.textNode = textNode
