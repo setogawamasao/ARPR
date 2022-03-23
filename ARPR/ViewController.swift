@@ -160,7 +160,7 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn, RPPreview
             editModalViewController.delegate = self
             if let popover = editModalViewController.popoverPresentationController {
                 let sheet = popover.adaptiveSheetPresentationController
-                sheet.detents = [.medium()]
+                sheet.detents = [.medium(),.large()]
                 sheet.prefersGrabberVisible = true // ハンドルを表示
             }
         

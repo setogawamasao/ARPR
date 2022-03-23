@@ -30,6 +30,7 @@ class EditModalViewController: UIViewController, UITextFieldDelegate, UIColorPic
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var questionColorButton: UIButton!
     @IBOutlet weak var answerColorButton: UIButton!
+    @IBOutlet weak var textScale: UILabel!
     
     var mode:ModalMode = ModalMode.new
     var colorPickerMode:QAMode?
@@ -43,6 +44,10 @@ class EditModalViewController: UIViewController, UITextFieldDelegate, UIColorPic
         
         questionColorButton.backgroundColor = editedNode?.questionColor
         answerColorButton.backgroundColor = editedNode?.answerColor
+        
+        if let scale = editedNode?.textNode?.scale.x {
+            textScale.text = String(scale)
+        }
         
         if mode == ModalMode.new{
             titleLabel.text = "新規作成"
@@ -66,6 +71,7 @@ class EditModalViewController: UIViewController, UITextFieldDelegate, UIColorPic
             if let unwrapedNode = editedNode,
                let textNode = unwrapedNode.textNode,
                let textGeometry = textNode.geometry as? SCNText {
+                // calor and text
                 if unwrapNode.isAnswered {
                     textGeometry.firstMaterial?.diffuse.contents = answerColorButton.backgroundColor
                     textGeometry.string = answerTextField.text
@@ -73,16 +79,22 @@ class EditModalViewController: UIViewController, UITextFieldDelegate, UIColorPic
                     textGeometry.firstMaterial?.diffuse.contents = questionColorButton.backgroundColor
                     textGeometry.string = questionTextField.text
                 }
+                // scale
+                if let scaleText = textScale.text,let scale = Float(scaleText) {
+                    textNode.scale.x = scale
+                    textNode.scale.y = scale
+                }
             }
-            unwrapNode.question = questionTextField.text
-            unwrapNode.answer = answerTextField.text
-            unwrapNode.centerPivot()
             unwrapNode.questionColor = questionColorButton.backgroundColor!
             unwrapNode.answerColor = answerColorButton.backgroundColor!
+            unwrapNode.question = questionTextField.text
+            unwrapNode.answer = answerTextField.text
+            
+            unwrapNode.centerPivot()
             
             if mode == ModalMode.new {
                 delegate?.returnData(qaNode: unwrapNode, mode: ModalMode.new)
-            }else{
+            } else {
                 delegate?.returnData(qaNode: unwrapNode, mode: ModalMode.update)
             }
         }
@@ -97,21 +109,25 @@ class EditModalViewController: UIViewController, UITextFieldDelegate, UIColorPic
         self.dismiss(animated: true, completion: nil)
     }
     
+    // textfieldのreturn押下時
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return true
     }
     
+    // 質問の色ボタン
     @IBAction func pickQuestionColor(_ sender: Any) {
         self.colorPickerMode = .question
         self.openColorPicker()
     }
     
+    // 答えの色ボタン
     @IBAction func pickAnswerColor(_ sender: Any) {
         self.colorPickerMode = .answer
         self.openColorPicker()
     }
     
+    // カラーピッカーを開く
     func openColorPicker(){
         let colorPicker = UIColorPickerViewController()
         if self.colorPickerMode == .question {
@@ -139,5 +155,25 @@ class EditModalViewController: UIViewController, UITextFieldDelegate, UIColorPic
         } else {
             self.answerColorButton.backgroundColor = viewController.selectedColor
         }
+    }
+    
+    // スケールを小さくする
+    @IBAction func smallerScale(_ sender: Any) {
+        let decrement = Float(0.001)
+        guard let scaleText = textScale.text else { return }
+        guard var scale = Float(scaleText) else {return}
+        scale = scale - decrement
+        if scale > 0 {
+            textScale.text = String(format: "%.3f",scale)
+        }
+    }
+    
+    // スケールを大きくする
+    @IBAction func biggerScale(_ sender: Any) {
+        let increment = Float(0.001)
+        guard let scaleText = textScale.text else { return }
+        guard var scale = Float(scaleText) else {return}
+        scale = scale + increment
+        textScale.text = String(format: "%.3f",scale)
     }
 }
