@@ -22,11 +22,11 @@ enum QAMode {
     case answer
 }
 
-class EditModalViewController: UIViewController, UITextFieldDelegate, UIColorPickerViewControllerDelegate {
+class EditModalViewController: UIViewController {
 
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var questionTextField: UITextField!
     @IBOutlet weak var answerTextField: UITextField!
-    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var questionColorButton: UIButton!
     @IBOutlet weak var answerColorButton: UIButton!
@@ -80,7 +80,7 @@ class EditModalViewController: UIViewController, UITextFieldDelegate, UIColorPic
                     textGeometry.string = questionTextField.text
                 }
                 // scale
-                if let scaleText = textScale.text,let scale = Float(scaleText) {
+                if let scaleText = textScale.text, let scale = Float(scaleText) {
                     textNode.scale.x = scale
                     textNode.scale.y = scale
                 }
@@ -89,7 +89,6 @@ class EditModalViewController: UIViewController, UITextFieldDelegate, UIColorPic
             unwrapNode.answerColor = answerColorButton.backgroundColor!
             unwrapNode.question = questionTextField.text
             unwrapNode.answer = answerTextField.text
-            
             unwrapNode.centerPivot()
             
             if mode == ModalMode.new {
@@ -107,73 +106,5 @@ class EditModalViewController: UIViewController, UITextFieldDelegate, UIColorPic
         guard let editedNode = editedNode else { return }
         editedNode.removeFromParentNode()
         self.dismiss(animated: true, completion: nil)
-    }
-    
-    // textfieldのreturn押下時
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.view.endEditing(true)
-        return true
-    }
-    
-    // 質問の色ボタン
-    @IBAction func pickQuestionColor(_ sender: Any) {
-        self.colorPickerMode = .question
-        self.openColorPicker()
-    }
-    
-    // 答えの色ボタン
-    @IBAction func pickAnswerColor(_ sender: Any) {
-        self.colorPickerMode = .answer
-        self.openColorPicker()
-    }
-    
-    // カラーピッカーを開く
-    func openColorPicker(){
-        let colorPicker = UIColorPickerViewController()
-        if self.colorPickerMode == .question {
-            if let questionColor = editedNode?.questionColor {
-                colorPicker.selectedColor = questionColor
-            }
-        } else {
-            if let answerColor = editedNode?.answerColor {
-                colorPicker.selectedColor = answerColor
-            }
-        }
-        colorPicker.delegate = self
-        self.present(colorPicker, animated: true, completion: nil)
-    }
-    
-    // 色を選択したときの処理
-    func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
-        // print("選択した色: \(viewController.selectedColor)")
-    }
-        
-    // カラーピッカーを閉じたときの処理
-    func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
-        if self.colorPickerMode == .question{
-            self.questionColorButton.backgroundColor = viewController.selectedColor
-        } else {
-            self.answerColorButton.backgroundColor = viewController.selectedColor
-        }
-    }
-    
-    // スケールを小さくする
-    @IBAction func smallerScale(_ sender: Any) {
-        let decrement = Float(0.001)
-        guard let scaleText = textScale.text else { return }
-        guard var scale = Float(scaleText) else {return}
-        scale = scale - decrement
-        if scale > 0 {
-            textScale.text = String(format: "%.3f",scale)
-        }
-    }
-    
-    // スケールを大きくする
-    @IBAction func biggerScale(_ sender: Any) {
-        let increment = Float(0.001)
-        guard let scaleText = textScale.text else { return }
-        guard var scale = Float(scaleText) else {return}
-        scale = scale + increment
-        textScale.text = String(format: "%.3f",scale)
     }
 }

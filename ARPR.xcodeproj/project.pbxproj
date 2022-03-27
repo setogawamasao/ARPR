@@ -19,6 +19,9 @@
 		985A765427F0AB9A00C2B489 /* RecordingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A765327F0AB9A00C2B489 /* RecordingExtension.swift */; };
 		985A765727F0B44D00C2B489 /* ModalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A765627F0B44D00C2B489 /* ModalExtension.swift */; };
 		985A765A27F0B57E00C2B489 /* SoundExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A765927F0B57E00C2B489 /* SoundExtension.swift */; };
+		985A765C27F0B81C00C2B489 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A765B27F0B81C00C2B489 /* ColorExtension.swift */; };
+		985A765E27F0B92300C2B489 /* ScaleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A765D27F0B92300C2B489 /* ScaleExtension.swift */; };
+		985A766027F0B9A800C2B489 /* TextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A765F27F0B9A800C2B489 /* TextFieldExtension.swift */; };
 		989BADE327E8C01C004717BE /* SEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989BADE227E8C01C004717BE /* SEManager.swift */; };
 		98FFB9AB27ECDFBF002F053C /* reggae-hone.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 98FFB9A127ECDFBF002F053C /* reggae-hone.mp3 */; };
 		98FFB9AD27ECDFBF002F053C /* jaaan.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 98FFB9A327ECDFBF002F053C /* jaaan.mp3 */; };
@@ -45,6 +48,9 @@
 		985A765327F0AB9A00C2B489 /* RecordingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingExtension.swift; sourceTree = "<group>"; };
 		985A765627F0B44D00C2B489 /* ModalExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalExtension.swift; sourceTree = "<group>"; };
 		985A765927F0B57E00C2B489 /* SoundExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundExtension.swift; sourceTree = "<group>"; };
+		985A765B27F0B81C00C2B489 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		985A765D27F0B92300C2B489 /* ScaleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleExtension.swift; sourceTree = "<group>"; };
+		985A765F27F0B9A800C2B489 /* TextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldExtension.swift; sourceTree = "<group>"; };
 		989BADE227E8C01C004717BE /* SEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEManager.swift; sourceTree = "<group>"; };
 		98FFB9A127ECDFBF002F053C /* reggae-hone.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "reggae-hone.mp3"; sourceTree = "<group>"; };
 		98FFB9A327ECDFBF002F053C /* jaaan.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = jaaan.mp3; sourceTree = "<group>"; };
@@ -148,6 +154,9 @@
 			isa = PBXGroup;
 			children = (
 				982D755227E367560008FC35 /* EditModalViewController.swift */,
+				985A765F27F0B9A800C2B489 /* TextFieldExtension.swift */,
+				985A765B27F0B81C00C2B489 /* ColorExtension.swift */,
+				985A765D27F0B92300C2B489 /* ScaleExtension.swift */,
 			);
 			path = editModal;
 			sourceTree = "<group>";
@@ -252,13 +261,16 @@
 			files = (
 				982CAC3027DBA98F0036F926 /* ViewController.swift in Sources */,
 				985A765727F0B44D00C2B489 /* ModalExtension.swift in Sources */,
+				985A765E27F0B92300C2B489 /* ScaleExtension.swift in Sources */,
 				985A765A27F0B57E00C2B489 /* SoundExtension.swift in Sources */,
 				989BADE327E8C01C004717BE /* SEManager.swift in Sources */,
 				982CAC2C27DBA98F0036F926 /* AppDelegate.swift in Sources */,
 				982D755327E367560008FC35 /* EditModalViewController.swift in Sources */,
 				985A765427F0AB9A00C2B489 /* RecordingExtension.swift in Sources */,
 				985A765227F0A8B700C2B489 /* GetToday.swift in Sources */,
+				985A766027F0B9A800C2B489 /* TextFieldExtension.swift in Sources */,
 				982D752F27E201A10008FC35 /* QaNode.swift in Sources */,
+				985A765C27F0B81C00C2B489 /* ColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
