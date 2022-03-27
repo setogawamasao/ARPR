@@ -16,6 +16,7 @@ class QaNode : SCNNode {
     var textDepth = 0.01
     var questionColor:UIColor = UIColor.green
     var answerColor:UIColor = UIColor.red
+    var soundName = "gun.mp3"
     
     init(initPosition: SCNVector3) {
         super.init()

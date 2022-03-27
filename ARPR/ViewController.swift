@@ -22,7 +22,6 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn, RPPreview
     var currentHandPoseObservation: VNHumanHandPoseObservation?
     var viewWidth:Int = 0
     var viewHeight:Int = 0
-    //var player:AVAudioPlayer?
     var seManager:SEManager!
     var barButtonColor = UIColor.init(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)
     
@@ -88,7 +87,7 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn, RPPreview
         
         if !nodeHit.isAnswered {
             nodeHit.answerQa()
-            self.playSound()
+            self.playSound(soundName: nodeHit.soundName)
         }
     }
     
@@ -244,9 +243,9 @@ class ViewController: UIViewController, ARSessionDelegate, DataReturn, RPPreview
     }
     
     // 音声再生
-    func playSound() {
+    func playSound(soundName:String) {
         do{
-        try seManager.playSound(soundName: "gun.mp3")
+            try seManager.playSound(soundName: soundName)
         } catch {
             print(error)
         }
