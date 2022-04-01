@@ -17,6 +17,10 @@ class QaNode : SCNNode {
     var questionColor:UIColor = UIColor.green
     var answerColor:UIColor = UIColor.red
     var soundName = "gun.mp3"
+    var textScale = 0.05
+    var offset = SCNVector3(0,0,0)
+    var facePosition:SCNVector3?
+    var isMoved = false
     
     init(initPosition: SCNVector3) {
         super.init()
@@ -43,10 +47,10 @@ class QaNode : SCNNode {
         text.font = UIFont(name: "HiraginoSans-W6", size: 1 )
         text.firstMaterial?.diffuse.contents = self.questionColor
         textNode.geometry = text
-        textNode.scale = SCNVector3(0.02,0.02,0.99)
+        textNode.scale = SCNVector3(self.textScale,self.textScale,0.99)
         self.textNode = textNode
         self.geometry = SCNBox()
-        self.geometry?.firstMaterial?.diffuse.contents = UIColor(red: 255, green: 255, blue: 255, alpha: 0)
+        self.geometry?.firstMaterial?.diffuse.contents = UIColor(red: 255, green: 255, blue: 255, alpha: 0.5)
         self.centerPivot()
         
         if let unwrapedInitPosition = self.initPosition {
