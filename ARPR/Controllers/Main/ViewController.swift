@@ -22,10 +22,11 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
     var viewWidth:Int = 0
     var viewHeight:Int = 0
     var seManager = SEManager.sharedInstance
-    private let serialQueue1 = DispatchQueue(label: "main-session")
-    private let serialQueue2 = DispatchQueue(label: "face-tracking")
-    private let serialQueue3 = DispatchQueue(label: "face-tracking-add")
-    var touchedQaNode: QaNode?
+    let serialQueue1 = DispatchQueue(label: "main-session")
+    let serialQueue2 = DispatchQueue(label: "face-tracking")
+    let serialQueue3 = DispatchQueue(label: "face-tracking-add")
+    var touchedNodeDistance :Float?
+    var facePosition : SCNVector3?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,12 +46,11 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
         // ライトの追加
         sceneView.autoenablesDefaultLighting = true
         // 初期QAの追加
-
     }
     
     // フレームごとの処理
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        serialQueue1.async {
+        serialQueue1.sync {
             for childNode in self.sceneView.scene.rootNode.childNodes {
                 guard let qaNode = childNode as? QaNode else {continue}
                 if let camera = self.sceneView.pointOfView {
@@ -58,7 +58,6 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
                         qaNode.eulerAngles = camera.eulerAngles  // カメラのオイラー角と同じにする
                     }
                 }
-                
             }
             
             let pixelBuffer = frame.capturedImage
@@ -83,7 +82,6 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
     
     //新しいARアンカーが設置された時に呼び出される
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        print("didAdd")
        serialQueue3.async {
            let qaNode1 = QaNode(question: "今日は何日?", answer: "\(getToday())", initPosition: node.position)
            self.sceneView.scene.rootNode.addChildNode(qaNode1)
@@ -93,20 +91,14 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
     //ARアンカーが更新された時に呼び出される
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
         serialQueue2.async {
+            self.facePosition = node.position
             for childNode in self.sceneView.scene.rootNode.childNodes {
                 guard let qaNode = childNode as? QaNode else {continue}
                 if qaNode.isMoved == false {
                     guard let cameraNode = self.sceneView.pointOfView else { return }
                     qaNode.offset.z = -node.position.distance(from: cameraNode.position)
-                    
-                    print(node.position.distance(from: cameraNode.position))
-                    print(node.position.z)
-                    //print(qaNode.position)
-                    
                     let offsetInWorld = cameraNode.convertPosition(qaNode.offset, to: nil)
-                    //print(offsetInWorld)
                     
-                    qaNode.facePosition = node.position
                     qaNode.position.x = node.position.x + offsetInWorld.x
                     qaNode.position.y = node.position.y + offsetInWorld.y
                     qaNode.position.z = node.position.z + offsetInWorld.z
@@ -124,66 +116,44 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
         guard let nodeHit = nodeHitTest.node as? QaNode else { return }
         
         if !nodeHit.isAnswered {
+            print("answed")
             nodeHit.answerQa()
-            //self.playSound(soundName: nodeHit.soundName)
+            self.playSound(soundName: nodeHit.soundName)
         }
     }
-    
-    var distance :Float?
-    var isSetedDistance = false
     
     // ドラッグ&ドロップのジェスチャーの挙動
     @objc func handleMove(_ gesture: UIPanGestureRecognizer) {
         let location = gesture.location(in: self.sceneView)
         guard let nodeHitTest = self.sceneView.hitTest(location, options: nil).first else {
-            //print("no node");
+            print("no node");
             return
         }
         
         if let nodeHit = nodeHitTest.node as? QaNode{
-            nodeHit.isMoved = true
-            //let worldTransform = nodeHitTest.simdWorldCoordinates
-            
             guard let cameraNode = sceneView.pointOfView else { return }
-            
-            if !isSetedDistance {
-                distance = nodeHit.position.distance(from: cameraNode.position)
-                isSetedDistance = true
+            if !nodeHit.isMoved {
+                touchedNodeDistance = nodeHit.position.distance(from: cameraNode.position)
+                nodeHit.isMoved  = true
             }
-            
-            guard let distance = distance else { return }
-
+            guard let distance = touchedNodeDistance else { return }
             let addPlane = SCNVector3(x: 0, y: 0, z: -distance)
-            
-
             let pointInWorld = cameraNode.convertPosition(addPlane, to: nil)
             var screenPosition = sceneView.projectPoint(pointInWorld)
             screenPosition.x = Float(location.x)
             screenPosition.y = Float(location.y)
             nodeHit.position = sceneView.unprojectPoint(screenPosition)
             
-            
-            //nodeHit.position = SCNVector3(worldTransform.x, worldTransform.y,  nodeHit.position.distance(from: camera.position))
-            
             // 指が離れた時
             if(gesture.state == UIGestureRecognizer.State.ended){
                 nodeHit.isMoved = false
-                
-                guard let facePosition = nodeHit.facePosition else {return}
-                print(sceneView.scene.rootNode.position)
+                guard let facePosition = self.facePosition else {return}
                 let facePositionInCamera = sceneView.scene.rootNode.convertPosition(facePosition, to: sceneView.pointOfView)
                 let nodeHitInCamera = sceneView.scene.rootNode.convertPosition(nodeHit.position, to: sceneView.pointOfView)
-                print(screenPosition)
-                print(facePositionInCamera)
-//                nodeHit.offset.x = nodeHit.position.x - facePosition.x
-//                nodeHit.offset.y = nodeHit.position.y - facePosition.y
                 nodeHit.offset.x = nodeHitInCamera.x - facePositionInCamera.x
                 nodeHit.offset.y = nodeHitInCamera.y - facePositionInCamera.y
-                isSetedDistance = false
             }
         }
-        
-
     }
     
     // タップのジェスチャーの挙動

@@ -19,7 +19,6 @@ class QaNode : SCNNode {
     var soundName = "gun.mp3"
     var textScale = 0.05
     var offset = SCNVector3(0,0,0)
-    var facePosition:SCNVector3?
     var isMoved = false
     
     init(initPosition: SCNVector3) {
