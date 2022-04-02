@@ -27,6 +27,7 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
     let serialQueue3 = DispatchQueue(label: "face-tracking-add")
     var touchedNodeDistance :Float?
     var facePosition : SCNVector3?
+    var isMoved = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +46,7 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
         sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ViewController.handleTapped(_:))))
         // ライトの追加
         sceneView.autoenablesDefaultLighting = true
-        // 初期QAの追加
+        
     }
     
     // フレームごとの処理
@@ -54,7 +55,7 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
             for childNode in self.sceneView.scene.rootNode.childNodes {
                 guard let qaNode = childNode as? QaNode else {continue}
                 if let camera = self.sceneView.pointOfView {
-                    if qaNode.isMoved == false {
+                    if self.isMoved == false {
                         qaNode.eulerAngles = camera.eulerAngles  // カメラのオイラー角と同じにする
                     }
                 }
@@ -83,6 +84,7 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
     //新しいARアンカーが設置された時に呼び出される
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
        serialQueue3.async {
+           // 初期QAの追加
            let qaNode1 = QaNode(question: "今日は何日?", answer: "\(getToday())", initPosition: node.position)
            self.sceneView.scene.rootNode.addChildNode(qaNode1)
        }
@@ -94,9 +96,9 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
             self.facePosition = node.position
             for childNode in self.sceneView.scene.rootNode.childNodes {
                 guard let qaNode = childNode as? QaNode else {continue}
-                if qaNode.isMoved == false {
+                if self.isMoved == false {
                     guard let cameraNode = self.sceneView.pointOfView else { return }
-                    qaNode.offset.z = -node.position.distance(from: cameraNode.position)
+                    //qaNode.offset.z = -node.position.distance(from: cameraNode.position)
                     let offsetInWorld = cameraNode.convertPosition(qaNode.offset, to: nil)
                     
                     qaNode.position.x = node.position.x + offsetInWorld.x
@@ -118,7 +120,7 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
         if !nodeHit.isAnswered {
             print("answed")
             nodeHit.answerQa()
-            self.playSound(soundName: nodeHit.soundName)
+            //self.playSound(soundName: nodeHit.soundName)
         }
     }
     
@@ -126,15 +128,15 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
     @objc func handleMove(_ gesture: UIPanGestureRecognizer) {
         let location = gesture.location(in: self.sceneView)
         guard let nodeHitTest = self.sceneView.hitTest(location, options: nil).first else {
-            print("no node");
+            //print("no node");
             return
         }
         
         if let nodeHit = nodeHitTest.node as? QaNode{
             guard let cameraNode = sceneView.pointOfView else { return }
-            if !nodeHit.isMoved {
+            if !self.isMoved {
                 touchedNodeDistance = nodeHit.position.distance(from: cameraNode.position)
-                nodeHit.isMoved  = true
+                self.isMoved  = true
             }
             guard let distance = touchedNodeDistance else { return }
             let addPlane = SCNVector3(x: 0, y: 0, z: -distance)
@@ -146,10 +148,10 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
             
             // 指が離れた時
             if(gesture.state == UIGestureRecognizer.State.ended){
-                nodeHit.isMoved = false
+                self.isMoved = false
                 guard let facePosition = self.facePosition else {return}
-                let facePositionInCamera = sceneView.scene.rootNode.convertPosition(facePosition, to: sceneView.pointOfView)
-                let nodeHitInCamera = sceneView.scene.rootNode.convertPosition(nodeHit.position, to: sceneView.pointOfView)
+                let facePositionInCamera = sceneView.scene.rootNode.convertPosition(facePosition, to: cameraNode)
+                let nodeHitInCamera = sceneView.scene.rootNode.convertPosition(nodeHit.position, to: cameraNode)
                 nodeHit.offset.x = nodeHitInCamera.x - facePositionInCamera.x
                 nodeHit.offset.y = nodeHitInCamera.y - facePositionInCamera.y
             }
@@ -169,7 +171,9 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
         }
         else{
             // no hit object -> add new qa object
-            let addPlane = SCNVector3(x: 0, y: 0, z: -0.3)
+            guard let cameraNode = sceneView.pointOfView else { return }
+            guard let facePosition = self.facePosition else {return}
+            let addPlane = SCNVector3(x: 0, y: 0, z: -facePosition.distance(from: cameraNode.position))
             guard let cameraNode = sceneView.pointOfView else { return }
             let pointInWorld = cameraNode.convertPosition(addPlane, to: nil)
             var screenPosition = sceneView.projectPoint(pointInWorld)

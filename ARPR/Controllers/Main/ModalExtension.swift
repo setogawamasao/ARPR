@@ -30,6 +30,13 @@ extension ViewController: DataReturn {
     func returnData(qaNode: QaNode, mode: ModalMode) {
         if mode == ModalMode.new {
             qaNode.initializeNode()
+            guard let cameraNode = sceneView.pointOfView else { return }
+            guard let facePosition = self.facePosition else {return}
+            let facePositionInCamera = sceneView.scene.rootNode.convertPosition(facePosition, to: cameraNode)
+            let nodeInCamera = sceneView.scene.rootNode.convertPosition(qaNode.position, to: cameraNode)
+            qaNode.offset.x = nodeInCamera.x - facePositionInCamera.x
+            qaNode.offset.y = nodeInCamera.y - facePositionInCamera.y
+            
             sceneView.scene.rootNode.addChildNode(qaNode)
         }
     }
