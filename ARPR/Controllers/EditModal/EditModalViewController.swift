@@ -27,6 +27,7 @@ class EditModalViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var questionTextField: UITextField!
     @IBOutlet weak var answerTextField: UITextField!
+    @IBOutlet weak var soundTextField: UITextField!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var questionColorButton: UIButton!
     @IBOutlet weak var answerColorButton: UIButton!
@@ -41,17 +42,18 @@ class EditModalViewController: UIViewController {
         super.viewDidLoad()
         questionTextField.delegate = self
         answerTextField.delegate = self
+        soundTextField.delegate = self
         
         questionColorButton.backgroundColor = editedNode?.questionColor
         answerColorButton.backgroundColor = editedNode?.answerColor
         
-        if let scale = editedNode?.textNode?.scale.x {
-            textScale.text = String(scale)
-        }
-        
         if mode == ModalMode.new{
             titleLabel.text = "新規作成"
             deleteButton.isHidden = true
+            
+            if let node = editedNode {
+                textScale.text = String(node.textScale)
+            }
             
             // ↓↓ リリース時は消す ↓↓
             questionTextField.text = "あいう"
@@ -62,6 +64,10 @@ class EditModalViewController: UIViewController {
             titleLabel.text = "編集"
             questionTextField.text = editedNode?.question
             answerTextField.text = editedNode?.answer
+            
+            if let scale = editedNode?.textNode?.scale.x {
+                textScale.text = String(scale)
+            }
         }
     }
     
@@ -81,8 +87,8 @@ class EditModalViewController: UIViewController {
                 }
                 // scale
                 if let scaleText = textScale.text, let scale = Float(scaleText) {
-                    textNode.scale.x = scale
-                    textNode.scale.y = scale
+                        textNode.scale.x = scale
+                        textNode.scale.y = scale
                 }
             }
             unwrapNode.questionColor = questionColorButton.backgroundColor!
@@ -92,6 +98,9 @@ class EditModalViewController: UIViewController {
             unwrapNode.centerPivot()
             
             if mode == ModalMode.new {
+                if let scaleText = textScale.text, let scale = Float(scaleText) {
+                    unwrapNode.textScale = scale
+                }
                 delegate?.returnData(qaNode: unwrapNode, mode: ModalMode.new)
             } else {
                 delegate?.returnData(qaNode: unwrapNode, mode: ModalMode.update)

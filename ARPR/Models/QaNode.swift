@@ -17,7 +17,7 @@ class QaNode : SCNNode {
     var questionColor:UIColor = UIColor.green
     var answerColor:UIColor = UIColor.red
     var soundName = "gun.mp3"
-    var textScale = 0.03
+    var textScale:Float = 0.03
     var offset = SCNVector3(0,0,0)
     var isMoved = false
     
