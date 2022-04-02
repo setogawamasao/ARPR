@@ -46,6 +46,7 @@ class EditModalViewController: UIViewController {
         
         questionColorButton.backgroundColor = editedNode?.questionColor
         answerColorButton.backgroundColor = editedNode?.answerColor
+        soundTextField.text = editedNode?.soundName
         
         if mode == ModalMode.new{
             titleLabel.text = "新規作成"
@@ -95,8 +96,11 @@ class EditModalViewController: UIViewController {
             unwrapNode.answerColor = answerColorButton.backgroundColor!
             unwrapNode.question = questionTextField.text
             unwrapNode.answer = answerTextField.text
+            if let soundName = soundTextField.text {
+                unwrapNode.soundName = soundName
+            }
             unwrapNode.centerPivot()
-            
+
             if mode == ModalMode.new {
                 if let scaleText = textScale.text, let scale = Float(scaleText) {
                     unwrapNode.textScale = scale

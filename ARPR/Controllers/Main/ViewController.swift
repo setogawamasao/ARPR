@@ -120,7 +120,7 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
         if !nodeHit.isAnswered {
             print("answed")
             nodeHit.answerQa()
-            //self.playSound(soundName: nodeHit.soundName)
+            self.playSound(soundName: nodeHit.soundName)
         }
     }
     
