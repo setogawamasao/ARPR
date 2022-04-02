@@ -15,6 +15,8 @@
 		982CAC3827DBA98F0036F926 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 982CAC3627DBA98F0036F926 /* LaunchScreen.storyboard */; };
 		982D752F27E201A10008FC35 /* QaNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982D752E27E201A10008FC35 /* QaNode.swift */; };
 		982D755327E367560008FC35 /* EditModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982D755227E367560008FC35 /* EditModalViewController.swift */; };
+		983D55EC27F897E600624A92 /* CustomUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983D55EB27F897E600624A92 /* CustomUITextField.swift */; };
+		983D55EE27F897EF00624A92 /* CustomPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983D55ED27F897EF00624A92 /* CustomPickerDelegate.swift */; };
 		9853218C27F718A1000B0303 /* SCNVector3Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9853218B27F718A1000B0303 /* SCNVector3Helpers.swift */; };
 		985A765227F0A8B700C2B489 /* GetToday.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A765127F0A8B700C2B489 /* GetToday.swift */; };
 		985A765427F0AB9A00C2B489 /* RecordingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A765327F0AB9A00C2B489 /* RecordingExtension.swift */; };
@@ -46,6 +48,8 @@
 		982CAC3727DBA98F0036F926 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		982D752E27E201A10008FC35 /* QaNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QaNode.swift; sourceTree = "<group>"; };
 		982D755227E367560008FC35 /* EditModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditModalViewController.swift; sourceTree = "<group>"; };
+		983D55EB27F897E600624A92 /* CustomUITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomUITextField.swift; sourceTree = "<group>"; };
+		983D55ED27F897EF00624A92 /* CustomPickerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPickerDelegate.swift; sourceTree = "<group>"; };
 		9853218B27F718A1000B0303 /* SCNVector3Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNVector3Helpers.swift; sourceTree = "<group>"; };
 		985A765127F0A8B700C2B489 /* GetToday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetToday.swift; sourceTree = "<group>"; };
 		985A765327F0AB9A00C2B489 /* RecordingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingExtension.swift; sourceTree = "<group>"; };
@@ -159,6 +163,8 @@
 		985A765827F0B50C00C2B489 /* EditModal */ = {
 			isa = PBXGroup;
 			children = (
+				983D55ED27F897EF00624A92 /* CustomPickerDelegate.swift */,
+				983D55EB27F897E600624A92 /* CustomUITextField.swift */,
 				982D755227E367560008FC35 /* EditModalViewController.swift */,
 				985A765F27F0B9A800C2B489 /* TextFieldExtension.swift */,
 				985A765B27F0B81C00C2B489 /* ColorExtension.swift */,
@@ -274,10 +280,12 @@
 				9853218C27F718A1000B0303 /* SCNVector3Helpers.swift in Sources */,
 				982CAC2C27DBA98F0036F926 /* AppDelegate.swift in Sources */,
 				982D755327E367560008FC35 /* EditModalViewController.swift in Sources */,
+				983D55EE27F897EF00624A92 /* CustomPickerDelegate.swift in Sources */,
 				985A765427F0AB9A00C2B489 /* RecordingExtension.swift in Sources */,
 				985A765227F0A8B700C2B489 /* GetToday.swift in Sources */,
 				985A766027F0B9A800C2B489 /* TextFieldExtension.swift in Sources */,
 				982D752F27E201A10008FC35 /* QaNode.swift in Sources */,
+				983D55EC27F897E600624A92 /* CustomUITextField.swift in Sources */,
 				985A765C27F0B81C00C2B489 /* ColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

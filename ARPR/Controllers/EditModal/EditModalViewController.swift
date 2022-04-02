@@ -27,7 +27,7 @@ class EditModalViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var questionTextField: UITextField!
     @IBOutlet weak var answerTextField: UITextField!
-    @IBOutlet weak var soundTextField: UITextField!
+    @IBOutlet weak var soundTextField: CustomUITextField!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var questionColorButton: UIButton!
     @IBOutlet weak var answerColorButton: UIButton!
@@ -37,12 +37,21 @@ class EditModalViewController: UIViewController {
     var colorPickerMode:QAMode?
     var editedNode: QaNode?
     var delegate: DataReturn?
+    var pickerView: UIPickerView = UIPickerView()
+    let list: [String] = ["bass-drum.mp3", "dooon.mp3", "explosion.mp3", "fracture.mp3", "jaaan.mp3", "plice.mp3", "reggae-hone.mp3", "scratch.mp3","shock.mp3","gun.mp3"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         questionTextField.delegate = self
         answerTextField.delegate = self
         soundTextField.delegate = self
+        // ピッカー設定
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        
+        // インプットビュー設定
+        soundTextField.inputView = pickerView
+        soundTextField.inputAccessoryView = self.generateToolBer()
         
         questionColorButton.backgroundColor = editedNode?.questionColor
         answerColorButton.backgroundColor = editedNode?.answerColor
