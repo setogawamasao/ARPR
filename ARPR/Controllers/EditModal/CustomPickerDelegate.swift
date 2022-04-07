@@ -7,8 +7,12 @@
 
 import UIKit
 
+struct ListItem {
+    var key: String
+    var value: String
+}
+
 extension EditModalViewController : UIPickerViewDelegate, UIPickerViewDataSource {
-    
     // 決定バーの生成
     func generateToolBer() -> UIToolbar {
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 35))
@@ -21,7 +25,8 @@ extension EditModalViewController : UIPickerViewDelegate, UIPickerViewDataSource
     // 決定ボタン押下
     @objc func done() {
         soundTextField.endEditing(true)
-        soundTextField.text = "\(list[pickerView.selectedRow(inComponent: 0)])"
+        
+        soundTextField.text = "\(dropList[pickerView.selectedRow(inComponent: 0)].value)"
     }
     
     // ドラムロールの列数
@@ -31,12 +36,12 @@ extension EditModalViewController : UIPickerViewDelegate, UIPickerViewDataSource
     
     // ドラムロールの行数
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return list.count
+        return dropList.count
     }
     
     // ドラムロールの各タイトル
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return list[row]
+        return dropList.map {$0.value}[row]
     }
     
     // ドラムロール選択時
@@ -44,6 +49,4 @@ extension EditModalViewController : UIPickerViewDelegate, UIPickerViewDataSource
         print("select")
         //self.textField.text = list[row]
     }
-    
-
 }

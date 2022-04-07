@@ -38,7 +38,17 @@ class EditModalViewController: UIViewController {
     var editedNode: QaNode?
     var delegate: DataReturn?
     var pickerView: UIPickerView = UIPickerView()
-    let list: [String] = ["bass-drum.mp3", "dooon.mp3", "explosion.mp3", "fracture.mp3", "jaaan.mp3", "plice.mp3", "reggae-hone.mp3", "scratch.mp3","shock.mp3","gun.mp3"]
+    // let list: [String] = ["bass-drum.mp3", "dooon.mp3", "explosion.mp3", "fracture.mp3", "jaaan.mp3", "plice.mp3", "reggae-hone.mp3", "scratch.mp3","shock.mp3","gun.mp3"]
+    let dropList: [ListItem] = [ListItem(key: "bass-drum.mp3", value: "バスドラム"),
+                            ListItem(key: "dooon.mp3", value: "ドゥーン"),
+                            ListItem(key: "explosion.mp3", value: "爆発"),
+                            ListItem(key: "fracture.mp3", value: "パリーン"),
+                            ListItem(key: "jaaan.mp3", value: "ジャーン"),
+                            ListItem(key: "plice.mp3", value: "プライス"),
+                            ListItem(key: "reggae-hone.mp3", value: "レゲエホーン"),
+                            ListItem(key: "scratch.mp3", value: "スクラッチ"),
+                            ListItem(key: "shock.mp3", value: "ショック"),
+                            ListItem(key: "gun.mp3",value: "銃声")]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +65,10 @@ class EditModalViewController: UIViewController {
         
         questionColorButton.backgroundColor = editedNode?.questionColor
         answerColorButton.backgroundColor = editedNode?.answerColor
-        soundTextField.text = editedNode?.soundName
+        if let soundItem = dropList.first(where: { $0.key == editedNode?.soundName }) {
+            soundTextField.text = soundItem.value
+        }
+        
         
         if mode == ModalMode.new{
             titleLabel.text = "新規作成"
@@ -106,7 +119,9 @@ class EditModalViewController: UIViewController {
             unwrapNode.question = questionTextField.text
             unwrapNode.answer = answerTextField.text
             if let soundName = soundTextField.text {
-                unwrapNode.soundName = soundName
+                if let soundItem = dropList.first(where: { $0.value == soundName }) {
+                    unwrapNode.soundName = soundItem.key
+                }
             }
             unwrapNode.centerPivot()
 
