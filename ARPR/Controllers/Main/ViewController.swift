@@ -29,16 +29,25 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
     var facePosition : SCNVector3?
     var isMoved = false
     
+    var gestureProcessor = HandGestureProcessor()
+    var overlayLayer = CAShapeLayer()
+    var pointsPath = UIBezierPath()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         sceneView = ARSCNView(frame: view.bounds)
         view.addSubview(sceneView)
         viewWidth = Int(sceneView.bounds.width)
         viewHeight = Int(sceneView.bounds.height)
-        let config = ARFaceTrackingConfiguration()
+
         sceneView.session.delegate = self
         sceneView.delegate = self
-        sceneView.session.run(config, options: [.resetTracking, .removeExistingAnchors])
+        
+        overlayLayer.frame = view.layer.bounds
+        view.layer.addSublayer(overlayLayer)
+        gestureProcessor.didChangeStateClosure = { [weak self] state in
+            self?.handleGestureStateChange(state: state)
+        }
         
         // ドラッグ＆ドロップの画面上のジェスチャーを検知
         sceneView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(ViewController.handleMove(_:))))
@@ -47,6 +56,8 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
         // ライトの追加
         sceneView.autoenablesDefaultLighting = true
         
+        let config = ARFaceTrackingConfiguration()
+        sceneView.session.run(config, options: [.resetTracking, .removeExistingAnchors])
     }
     
     // フレームごとの処理
@@ -60,25 +71,85 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
                     }
                 }
             }
+        }
+        
+        let handPoseRequest = VNDetectHumanHandPoseRequest()
+        handPoseRequest.maximumHandCount = 1
+        handPoseRequest.revision = VNDetectHumanHandPoseRequestRevision1
+        
+        let capture = frame.capturedImage
+        let image = CIImage(cvPixelBuffer: capture)
+        
+        let handler = VNImageRequestHandler(ciImage: image, orientation: .right)
+        do {
+            try handler.perform([handPoseRequest])
+            guard let handPoses = handPoseRequest.results, !handPoses.isEmpty else {
+                self.showPoints([], color: UIColor.red)
+                return
+            }
+            guard let observation = handPoses.first else { return }
+            let thumbPoints = try observation.recognizedPoints(.thumb)
+            let indexFingerPoints = try observation.recognizedPoints(.indexFinger)
             
-            let pixelBuffer = frame.capturedImage
-            DispatchQueue.global(qos: .userInitiated).async { [self] in
-                let handPoseRequest = VNDetectHumanHandPoseRequest()
-                handPoseRequest.maximumHandCount = 1
-                handPoseRequest.revision = VNDetectHumanHandPoseRequestRevision1
-                
-                let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer,orientation: .right , options: [:])
-                do {
-                    try handler.perform([handPoseRequest])
-                } catch {
-                    assertionFailure("HandPoseRequest failed: \(error)")
-                }
-                
-                guard let handPoses = handPoseRequest.results, !handPoses.isEmpty else { return }
-                guard let observation = handPoses.first else { return }
-                self.Answer(handPoseObservation: observation)
+            guard let thumbTipPoint = thumbPoints[.thumbTip], let indexTipPoint = indexFingerPoints[.indexTip] else { return }
+            guard thumbTipPoint.confidence > 0.3 && indexTipPoint.confidence > 0.3 else { return }
+            
+            let index = CGPoint(x: indexTipPoint.location.x, y: 1 - indexTipPoint.location.y)
+            let thumb = CGPoint(x: thumbTipPoint.location.x, y: 1 - thumbTipPoint.location.y)
+            
+            let viewPortSize = overlayLayer.bounds.size
+            let rotation = CGAffineTransform(rotationAngle: -.pi/2)
+            let transLation = CGAffineTransform(translationX: 0, y: 1)
+            let displayTransform = frame.displayTransform(for: .portrait , viewportSize: viewPortSize)
+            let toViewPortTransform = CGAffineTransform(scaleX: viewPortSize.width, y: viewPortSize.height)
+            let normalizedToViewPortTransform = rotation.concatenating(transLation).concatenating(displayTransform).concatenating(toViewPortTransform)
+            
+            let indexTip = index.applying(normalizedToViewPortTransform)
+            let thumbTip = thumb.applying(normalizedToViewPortTransform)
+            
+            gestureProcessor.processPointsPair((indexTip, thumbTip))
+        } catch {
+            assertionFailure("HandPoseRequest failed: \(error)")
+        }
+    }
+    
+    func handleGestureStateChange(state: HandGestureProcessor.State) {
+        let pointsPair = gestureProcessor.lastProcessedPointsPair
+        var tipsColor: UIColor
+        switch state {
+        case .possiblePinch, .possibleApart:
+            tipsColor = .orange
+        case .pinched:
+            tipsColor = .red
+        case .apart, .unknown:
+            tipsColor = .green
+        }
+        self.showPoints([pointsPair.thumbTip, pointsPair.indexTip], color: tipsColor)
+        
+        if state == .pinched {
+            let pinchedPoint = CGPoint.midPoint(p1: pointsPair.thumbTip, p2: pointsPair.indexTip)
+            guard let nodeHitTest = sceneView.hitTest(pinchedPoint, options: nil).first else { return }
+            guard let nodeHit = nodeHitTest.node as? QaNode else { return }
+            
+            if !nodeHit.isAnswered {
+                print("answed")
+                nodeHit.answerQa()
+                self.playSound(soundName: nodeHit.soundName)
             }
         }
+    }
+    
+    func showPoints(_ points: [CGPoint], color: UIColor) {
+        self.pointsPath.removeAllPoints()
+        for point in points {
+            self.pointsPath.move(to: point)
+            self.pointsPath.addArc(withCenter: point, radius: 5, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
+        }
+        self.overlayLayer.fillColor = color.cgColor
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        self.overlayLayer.path = self.pointsPath.cgPath
+        CATransaction.commit()
     }
     
     //新しいARアンカーが設置された時に呼び出される
@@ -106,21 +177,6 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
                     qaNode.position.z = node.position.z + offsetInWorld.z
                 }
             }
-        }
-    }
-    
-    // ARジェスチャー
-    func Answer(handPoseObservation: VNHumanHandPoseObservation) {
-        guard let indexFingerTip = try? handPoseObservation.recognizedPoints(.all)[.indexTip],indexFingerTip.confidence > 0.3 else { return }
-        let indexTip = VNImagePointForNormalizedPoint(CGPoint(x: indexFingerTip.location.x, y:1-indexFingerTip.location.y), viewWidth,  viewHeight)
-        
-        guard let nodeHitTest = sceneView.hitTest(indexTip, options: nil).first else { return }
-        guard let nodeHit = nodeHitTest.node as? QaNode else { return }
-        
-        if !nodeHit.isAnswered {
-            print("answed")
-            nodeHit.answerQa()
-            self.playSound(soundName: nodeHit.soundName)
         }
     }
     

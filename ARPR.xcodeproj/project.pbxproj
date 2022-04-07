@@ -25,6 +25,7 @@
 		985A765C27F0B81C00C2B489 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A765B27F0B81C00C2B489 /* ColorExtension.swift */; };
 		985A765E27F0B92300C2B489 /* ScaleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A765D27F0B92300C2B489 /* ScaleExtension.swift */; };
 		985A766027F0B9A800C2B489 /* TextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A765F27F0B9A800C2B489 /* TextFieldExtension.swift */; };
+		986AFB3F27FF5BB300A74828 /* HandGestureProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AFB3E27FF5BB300A74828 /* HandGestureProcessor.swift */; };
 		989BADE327E8C01C004717BE /* SEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989BADE227E8C01C004717BE /* SEManager.swift */; };
 		98AE2A4727F342FD0008B62E /* generateRundomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AE2A4627F342FD0008B62E /* generateRundomColor.swift */; };
 		98FFB9AB27ECDFBF002F053C /* reggae-hone.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 98FFB9A127ECDFBF002F053C /* reggae-hone.mp3 */; };
@@ -58,6 +59,7 @@
 		985A765B27F0B81C00C2B489 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		985A765D27F0B92300C2B489 /* ScaleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleExtension.swift; sourceTree = "<group>"; };
 		985A765F27F0B9A800C2B489 /* TextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldExtension.swift; sourceTree = "<group>"; };
+		986AFB3E27FF5BB300A74828 /* HandGestureProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandGestureProcessor.swift; sourceTree = "<group>"; };
 		989BADE227E8C01C004717BE /* SEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEManager.swift; sourceTree = "<group>"; };
 		98AE2A4627F342FD0008B62E /* generateRundomColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = generateRundomColor.swift; sourceTree = "<group>"; };
 		98FFB9A127ECDFBF002F053C /* reggae-hone.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "reggae-hone.mp3"; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 			children = (
 				982D752E27E201A10008FC35 /* QaNode.swift */,
 				989BADE227E8C01C004717BE /* SEManager.swift */,
+				986AFB3E27FF5BB300A74828 /* HandGestureProcessor.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 			files = (
 				982CAC3027DBA98F0036F926 /* ViewController.swift in Sources */,
 				98AE2A4727F342FD0008B62E /* generateRundomColor.swift in Sources */,
+				986AFB3F27FF5BB300A74828 /* HandGestureProcessor.swift in Sources */,
 				985A765727F0B44D00C2B489 /* ModalExtension.swift in Sources */,
 				985A765E27F0B92300C2B489 /* ScaleExtension.swift in Sources */,
 				985A765A27F0B57E00C2B489 /* SoundExtension.swift in Sources */,
