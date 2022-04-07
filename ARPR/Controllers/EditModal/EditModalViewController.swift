@@ -38,11 +38,11 @@ class EditModalViewController: UIViewController {
     var editedNode: QaNode?
     var delegate: DataReturn?
     var pickerView: UIPickerView = UIPickerView()
-    // let list: [String] = ["bass-drum.mp3", "dooon.mp3", "explosion.mp3", "fracture.mp3", "jaaan.mp3", "plice.mp3", "reggae-hone.mp3", "scratch.mp3","shock.mp3","gun.mp3"]
+    var seManager = SEManager.sharedInstance
     let dropList: [ListItem] = [ListItem(key: "bass-drum.mp3", value: "バスドラム"),
                             ListItem(key: "dooon.mp3", value: "ドゥーン"),
                             ListItem(key: "explosion.mp3", value: "爆発"),
-                            ListItem(key: "fracture.mp3", value: "パリーン"),
+                            ListItem(key: "fracture.mp3", value: "グサ"),
                             ListItem(key: "jaaan.mp3", value: "ジャーン"),
                             ListItem(key: "plice.mp3", value: "プライス"),
                             ListItem(key: "reggae-hone.mp3", value: "レゲエホーン"),

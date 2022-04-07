@@ -16,17 +16,30 @@ extension EditModalViewController : UIPickerViewDelegate, UIPickerViewDataSource
     // 決定バーの生成
     func generateToolBer() -> UIToolbar {
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 35))
+
         let spacelItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let playItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(play))
         let doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
-        toolbar.setItems([spacelItem, doneItem], animated: true)
+
+        
+        toolbar.setItems([playItem,spacelItem, doneItem], animated: true)
         return toolbar
+    }
+    
+    // 決定ボタン押下
+    @objc func play() {
+        do{
+            try seManager.playSound(soundName: dropList[pickerView.selectedRow(inComponent: 0)].key)
+
+        } catch {
+            print(error)
+        }
     }
     
     // 決定ボタン押下
     @objc func done() {
         soundTextField.endEditing(true)
-        
-        soundTextField.text = "\(dropList[pickerView.selectedRow(inComponent: 0)].value)"
+        soundTextField.text = dropList[pickerView.selectedRow(inComponent: 0)].value
     }
     
     // ドラムロールの列数
