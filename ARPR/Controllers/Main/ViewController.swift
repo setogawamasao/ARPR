@@ -62,13 +62,12 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
     
     // フレームごとの処理
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        serialQueue1.sync {
-            for childNode in self.sceneView.scene.rootNode.childNodes {
-                guard let qaNode = childNode as? QaNode else {continue}
-                if let camera = self.sceneView.pointOfView {
-                    if self.isMoved == false {
-                        qaNode.eulerAngles = camera.eulerAngles  // カメラのオイラー角と同じにする
-                    }
+     
+        for childNode in self.sceneView.scene.rootNode.childNodes {
+            guard let qaNode = childNode as? QaNode else {continue}
+            if let camera = self.sceneView.pointOfView {
+                if qaNode.isAnswering == false {
+                    qaNode.eulerAngles = camera.eulerAngles  // カメラのオイラー角と同じにする
                 }
             }
         }
@@ -132,9 +131,13 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
             guard let nodeHit = nodeHitTest.node as? QaNode else { return }
             
             if !nodeHit.isAnswered {
-                print("answed")
-                nodeHit.answerQa()
-                self.playSound(soundName: nodeHit.soundName)
+                serialQueue1.async {
+                    nodeHit.isAnswering = true
+                    nodeHit.answerQa()
+                    self.playSound(soundName: nodeHit.soundName)
+                    Thread.sleep(forTimeInterval: 0.5)
+                    nodeHit.isAnswering = false
+                }
             }
         }
     }
@@ -166,12 +169,10 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
         serialQueue2.async {
             self.facePosition = node.position
             for childNode in self.sceneView.scene.rootNode.childNodes {
-                guard let qaNode = childNode as? QaNode else {continue}
+                guard let qaNode = childNode as? QaNode else { continue }
                 if self.isMoved == false {
                     guard let cameraNode = self.sceneView.pointOfView else { return }
-                    //qaNode.offset.z = -node.position.distance(from: cameraNode.position)
                     let offsetInWorld = cameraNode.convertPosition(qaNode.offset, to: nil)
-                    
                     qaNode.position.x = node.position.x + offsetInWorld.x
                     qaNode.position.y = node.position.y + offsetInWorld.y
                     qaNode.position.z = node.position.z + offsetInWorld.z

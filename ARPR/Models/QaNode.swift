@@ -20,6 +20,7 @@ class QaNode : SCNNode {
     var textScale:Float = 0.03
     var offset = SCNVector3(0,0,0)
     var isMoved = false
+    var isAnswering = false
     
     init(initPosition: SCNVector3) {
         super.init()
@@ -72,13 +73,13 @@ class QaNode : SCNNode {
         rotate.timingMode = .easeInEaseOut
         self.runAction(.sequence([rotate]))
         
-        
         guard let textNode = self.textNode ,
               let textGeometry = textNode.geometry as? SCNText else { return }
         textGeometry.string = self.answer
         textGeometry.firstMaterial?.diffuse.contents = self.answerColor
         self.centerPivot()
         self.isAnswered = true
+        
     }
     
     func centerPivot(){
