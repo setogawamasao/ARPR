@@ -50,7 +50,7 @@ class QaNode : SCNNode {
         textNode.scale = SCNVector3(self.textScale,self.textScale,0.99)
         self.textNode = textNode
         self.geometry = SCNBox()
-        self.geometry?.firstMaterial?.diffuse.contents = UIColor(red: 255, green: 255, blue: 255, alpha: 0.5)
+        self.geometry?.firstMaterial?.diffuse.contents = UIColor(red: 255, green: 255, blue: 255, alpha: 0)
         self.centerPivot()
         
         if let unwrapedInitPosition = self.initPosition {

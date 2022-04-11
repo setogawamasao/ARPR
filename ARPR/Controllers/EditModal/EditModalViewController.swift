@@ -79,8 +79,8 @@ class EditModalViewController: UIViewController {
             }
             
             // ↓↓ リリース時は消す ↓↓
-            questionTextField.text = "あいう"
-            answerTextField.text = "えお"
+//            questionTextField.text = "あいう"
+//            answerTextField.text = "えお"
             // ↑↑ リリース時は消す ↑↑
         }
         else{

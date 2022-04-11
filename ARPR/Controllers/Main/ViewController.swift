@@ -114,16 +114,16 @@ class ViewController: UIViewController, ARSessionDelegate, ARSCNViewDelegate  {
     
     func handleGestureStateChange(state: HandGestureProcessor.State) {
         let pointsPair = gestureProcessor.lastProcessedPointsPair
-        var tipsColor: UIColor
-        switch state {
-        case .possiblePinch, .possibleApart:
-            tipsColor = .orange
-        case .pinched:
-            tipsColor = .red
-        case .apart, .unknown:
-            tipsColor = .green
-        }
-        self.showPoints([pointsPair.thumbTip, pointsPair.indexTip], color: tipsColor)
+//        var tipsColor: UIColor
+//        switch state {
+//        case .possiblePinch, .possibleApart:
+//            tipsColor = .orange
+//        case .pinched:
+//            tipsColor = .red
+//        case .apart, .unknown:
+//            tipsColor = .green
+//        }
+//        self.showPoints([pointsPair.thumbTip, pointsPair.indexTip], color: tipsColor)
         
         if state == .pinched {
             let pinchedPoint = CGPoint.midPoint(p1: pointsPair.thumbTip, p2: pointsPair.indexTip)
